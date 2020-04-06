@@ -1,0 +1,13 @@
+.landingJumbo {
+  background-image: url('../../assets/images/lacie-slezak-yHG6llFLjS0-unsplash.jpg');
+  background-size: cover;
+  background-blend-mode: darken;
+  color: white;
+  height: auto;
+  text-align: center;
+}
+
+.aboutText {
+  width: auto;
+  font-size: medium;
+}
