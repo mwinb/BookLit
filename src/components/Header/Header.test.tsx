@@ -1,12 +1,14 @@
 import { mount, ReactWrapper } from 'enzyme';
 import Header from './Header';
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import MockUsers from '../../__mocks__/mockUsers.json';
 
 let renderedComponent: ReactWrapper;
 
 const props = {
   isLoggedIn: false,
-  userName: 'Test User',
+  user: MockUsers[0],
 };
 
 afterEach(() => {
@@ -16,7 +18,11 @@ afterEach(() => {
 
 describe('Header when user is not logged in', () => {
   beforeEach(() => {
-    renderedComponent = mount(<Header {...props}></Header>);
+    renderedComponent = mount(
+      <BrowserRouter>
+        <Header {...props} />
+      </BrowserRouter>,
+    );
   });
 
   it('renders a nav bar', () => {
@@ -35,7 +41,11 @@ describe('Header when user is not logged in', () => {
 describe('Header when user is logged in', () => {
   beforeEach(async () => {
     props.isLoggedIn = true;
-    renderedComponent = mount(<Header {...props}></Header>);
+    renderedComponent = mount(
+      <BrowserRouter>
+        <Header {...props} />
+      </BrowserRouter>,
+    );
     renderedComponent.find('.dropdown-toggle').first().simulate('click');
   });
 

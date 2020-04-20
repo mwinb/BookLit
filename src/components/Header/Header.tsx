@@ -3,10 +3,11 @@ import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import Routes from '../../common/Routes';
 import { LinkContainer } from 'react-router-bootstrap';
+import { UserInterface } from '../../common/interfaces';
 
 interface HeaderProps {
   isLoggedIn: boolean;
-  userName: string;
+  user?: UserInterface;
 }
 
 function Header(props: HeaderProps): ReactElement {
@@ -25,7 +26,7 @@ function Header(props: HeaderProps): ReactElement {
               <Nav.Link className="mr-sm-2">Sign In</Nav.Link>
             </LinkContainer>
           )}
-          {isLoggedIn && <UserDropDown userName={props.userName}></UserDropDown>}
+          {isLoggedIn && <UserDropDown user={props.user}></UserDropDown>}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
@@ -33,13 +34,13 @@ function Header(props: HeaderProps): ReactElement {
 }
 
 interface UserDropDownProps {
-  userName: string;
+  user?: UserInterface;
 }
 
 function UserDropDown(props: UserDropDownProps): ReactElement {
   return (
     <>
-      <NavDropdown alignRight className="" title={props.userName} id="collasible-nav-dropdown">
+      <NavDropdown alignRight className="" title={props.user?.userName} id="collasible-nav-dropdown">
         <LinkContainer to={Routes.MY_SETTINGS}>
           <NavDropdown.Item>My Settings</NavDropdown.Item>
         </LinkContainer>

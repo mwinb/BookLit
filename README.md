@@ -15,3 +15,4 @@
 - [ ] Explore Auth options. 
 - [ ] Create Basic Sign Up Form. (consider requiring google initially)
 - [ ] Start on Back end. 
+# Book Nook
