@@ -1,8 +1,10 @@
 
 export interface ClubInterface {
-    id: number,
+    id: string,
     name: string,
     book: string,
-    members: number[],
-    owner: number
+    members: string[],
+    owner: string,
+    topics: string[],
+    created: string;
 }

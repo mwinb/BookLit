@@ -1,6 +1,8 @@
 export interface UserInterface {
-    id: number;
-    userName: string;
-    userEmail: string;
-    clubs: number[];
+    id: string;
+    name: string;
+    email: string;
+    clubs: string[];
+    lastLogin: string;
+    created: string;
 }

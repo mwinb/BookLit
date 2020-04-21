@@ -1,14 +1,13 @@
 import { mount, ReactWrapper } from 'enzyme';
-import Header from './Header';
+import Header, { HeaderProps } from './Header';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import MockUsers from '../../__mocks__/mockUsers.json';
+import { mockUsers } from '../../__mocks__';
 
 let renderedComponent: ReactWrapper;
 
-const props = {
-  isLoggedIn: false,
-  user: MockUsers[0],
+const props: HeaderProps = {
+  user: undefined,
 };
 
 afterEach(() => {
@@ -40,7 +39,7 @@ describe('Header when user is not logged in', () => {
 
 describe('Header when user is logged in', () => {
   beforeEach(async () => {
-    props.isLoggedIn = true;
+    props.user = mockUsers[0];
     renderedComponent = mount(
       <BrowserRouter>
         <Header {...props} />

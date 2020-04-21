@@ -6,6 +6,7 @@ const Routes = {
     MY_CLUBS: '/myClubs',
     NEW_CLUB: '/newClub',
     MY_SETTINGS: '/mySettings',
+    CLUB: '/club',
 }
 
 export default Routes;

@@ -1,9 +1,10 @@
 import { ReactElement } from 'react';
 import React from 'react';
 import './LandingPage.css';
-import Routes from '../../common/Routes';
+import Routes from '../../../common/Routes';
 import { Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import ImageCredit from '../../../common/components/ImageCredit';
 
 function LandingPage(): ReactElement {
   return (
@@ -17,6 +18,15 @@ function LandingPage(): ReactElement {
         <LinkContainer to={Routes.SIGN_UP}>
           <Button>Sign Up</Button>
         </LinkContainer>
+        <br />
+      </div>
+      <div style={{ position: 'absolute', bottom: 0, margin: 2 }}>
+        <ImageCredit
+          url={
+            'https://unsplash.com/@nbb_photos?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge'
+          }
+          label={'Lacie Slezak'}
+        />
       </div>
     </div>
   );

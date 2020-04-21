@@ -5,16 +5,15 @@ import Routes from '../../common/Routes';
 import { LinkContainer } from 'react-router-bootstrap';
 import { UserInterface } from '../../common/interfaces';
 
-interface HeaderProps {
-  isLoggedIn: boolean;
+export interface HeaderProps {
   user?: UserInterface;
 }
 
 function Header(props: HeaderProps): ReactElement {
-  const isLoggedIn = props.isLoggedIn;
+  const isLoggedIn = props.user !== undefined;
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
       <LinkContainer to={Routes.HOME}>
         <Navbar.Brand>Book Nook</Navbar.Brand>
       </LinkContainer>
@@ -40,7 +39,7 @@ interface UserDropDownProps {
 function UserDropDown(props: UserDropDownProps): ReactElement {
   return (
     <>
-      <NavDropdown alignRight className="" title={props.user?.userName} id="collasible-nav-dropdown">
+      <NavDropdown alignRight className="" title={props.user?.name} id="collasible-nav-dropdown">
         <LinkContainer to={Routes.MY_SETTINGS}>
           <NavDropdown.Item>My Settings</NavDropdown.Item>
         </LinkContainer>

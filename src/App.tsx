@@ -1,42 +1,41 @@
-import React, { useState, useEffect, ReactElement } from 'react';
-import './App.css';
-import Header from './components/Header/Header';
-import LandingPage from './components/LandingPage/LandingPage';
+import React, { useState, ReactElement, useCallback } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import Routes from './common/Routes';
 import { UserInterface } from './common/interfaces';
 import { Form, Button } from 'react-bootstrap';
 import { API } from './__mocks__';
+import LandingPage from './components/pages/LandingPage/LandingPage';
+import MyClubsPage from './components/pages/MyClubs/MyClubsPage';
+import Header from './components/Header/Header';
+import Routes from './common/Routes';
+import './App.css';
 
 function App(): ReactElement {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState<UserInterface>();
+  const [user, setUser] = useState<UserInterface | undefined>();
   const [api] = useState<API>(API.getInstance());
 
   return (
     <Router>
       <div>
-        <Header isLoggedIn={loggedIn} user={user}></Header>
+        <Header user={user}></Header>
         <Switch>
           <Route exact path={Routes.HOME}>
-            <LandingPage></LandingPage>
+            {user && <Redirect to={Routes.MY_CLUBS}></Redirect>}
+            {!user && <LandingPage></LandingPage>}
           </Route>
           <Route path={Routes.SIGN_IN}>
-            {!loggedIn && (
+            {!user && (
               <SignIn
                 handleLogIn={(user: UserInterface) => {
                   setUser(user);
-                  setLoggedIn(true);
                 }}
                 api={api}
               />
             )}
-            {loggedIn && <Redirect to={Routes.MY_CLUBS} />}
+            {user && <Redirect to={Routes.MY_CLUBS} />}
           </Route>
           <Route path={Routes.SIGN_OUT}>
             <SignOut
               handleLogout={() => {
-                setLoggedIn(false);
                 setUser(undefined);
               }}
             />
@@ -48,7 +47,8 @@ function App(): ReactElement {
             <h1>My Settings</h1>
           </Route>
           <Route path={Routes.MY_CLUBS}>
-            <h1>My Clubs</h1>
+            {user && <MyClubsPage user={user} api={api} />}
+            {!user && <Redirect to={Routes.HOME}></Redirect>}
           </Route>
           <Route path={Routes.NEW_CLUB}>
             <h1>New Club</h1>
@@ -62,27 +62,24 @@ function App(): ReactElement {
 function SignIn(props: { handleLogIn(user: UserInterface): void; api: API }): ReactElement {
   const [email, setEmail] = useState<string>('');
   const [pass, setPass] = useState<string>('');
-  const [submitted, setSubmitted] = useState<boolean>(false);
 
-  const login = async (): Promise<void> => {
-    const user = await props.api.login(email, pass);
-    if (user) {
-      props.handleLogIn(user);
-    }
-    setSubmitted(false);
-    setEmail('');
-    setPass('');
-  };
-
-  useEffect(() => {
-    if (submitted) {
-      login();
-    }
-  }, [submitted, login]);
+  const login = useCallback(
+    async (e: any): Promise<void> => {
+      e.preventDefault();
+      const user = await props.api.login(email, pass);
+      if (user) {
+        props.handleLogIn(user);
+      } else {
+        setEmail('');
+        setPass('');
+      }
+    },
+    [setEmail, setPass, props, email, pass],
+  );
 
   return (
     <>
-      <Form>
+      <Form onSubmit={login}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -90,7 +87,7 @@ function SignIn(props: { handleLogIn(user: UserInterface): void; api: API }): Re
             placeholder="Enter email"
             onChange={(event: any) => setEmail(event.target.value)}
             value={email}
-            required
+            required={true}
           />
           <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
         </Form.Group>
@@ -101,10 +98,10 @@ function SignIn(props: { handleLogIn(user: UserInterface): void; api: API }): Re
             placeholder="Password"
             value={pass}
             onChange={(event: any) => setPass(event.target.value)}
-            required
+            required={true}
           />
         </Form.Group>
-        <Button variant="primary" type="button" onClick={() => setSubmitted(true)}>
+        <Button variant="primary" type="submit">
           Submit
         </Button>
       </Form>

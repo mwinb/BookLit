@@ -1,13 +1,12 @@
-import MockUsers from './mockUsers.json'
-import MockClubs from './mockClubs.json'
-import MockCredentials from './mockLogin.json'
+
 import { ClubInterface, UserInterface } from "../common/interfaces";
+import { mockClubs, mockUsers, mockCredentials } from ".";
 
 export class MockDataBase {
     private static _instance: MockDataBase;
-    _mockClubs: ClubInterface[] = MockClubs;
-    _mockUsers: UserInterface[] = MockUsers;
-    _mockCredentials = MockCredentials;
+    _mockClubs: ClubInterface[] = mockClubs;
+    _mockUsers: UserInterface[] = mockUsers;
+    _mockCredentials = mockCredentials;
     private constructor() {
     }
 
@@ -18,7 +17,7 @@ export class MockDataBase {
         return this._instance;
     }
     // Will be using google auth or keycloak this is just for demo
-    _login(email: string, password: string): number | undefined {
+    _login(email: string, password: string): string | undefined {
         let id = undefined;
         for (const credential of this._mockCredentials) {
             if (credential.email === email && credential.password === password)
@@ -27,13 +26,13 @@ export class MockDataBase {
         return id;
     }
 
-    _findUser(id: number): UserInterface | undefined {
+    _findUser(id: string): UserInterface | undefined {
         return this._mockUsers.find(user => {
             return user.id === id;
         });
     }
 
-    _findUsers(ids: number[]): UserInterface[] | undefined {
+    _findUsers(ids: string[]): UserInterface[] | undefined {
         const users: UserInterface[] = []
         return ids.reduce((users, id) => {
             const user = this._findUser(id);
@@ -43,13 +42,13 @@ export class MockDataBase {
         }, users);
     }
 
-    _findClub(id: number): ClubInterface | undefined {
+    _findClub(id: string): ClubInterface | undefined {
         return this._mockClubs.find(club => {
             return club.id === id;
         })
     }
 
-    _findClubs(ids: number[]): ClubInterface[] | undefined {
+    _findClubs(ids: string[]): ClubInterface[] | undefined {
         const clubs: ClubInterface[] = [];
         return ids.reduce((clubs, id) => {
             const club = this._findClub(id);
