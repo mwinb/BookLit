@@ -2,7 +2,7 @@ import { ClubInterface } from '../../../../common/interfaces';
 import React, { ReactElement, useEffect, useState, useCallback } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import Routes from '../../../../common/Routes';
+import { Routes } from '../../../../common/Routes';
 import { API } from '../../../../__mocks__';
 
 export interface ClubCardProps {
@@ -42,6 +42,11 @@ function ClubCard(props: ClubCardProps): ReactElement {
       </Card.Header>
       <Card.Body>
         <Card.Title>Book {props.club.book}</Card.Title>
+        <p color="white" style={{ margin: '0', padding: '0' }}>
+          Description:
+        </p>
+        <p>{props.club.description}</p>
+        <br />
         <small color="white" style={{ margin: '0', padding: '0' }}>
           Owner: {clubCreator}
         </small>
@@ -52,6 +57,10 @@ function ClubCard(props: ClubCardProps): ReactElement {
         <br />
         <small color="white" style={{ margin: '0', padding: '0' }}>
           Topics: {props.club.topics.length}
+        </small>
+        <br />
+        <small color="white" style={{ margin: '0', padding: '0' }}>
+          Created: {new Date(props.club.created).toDateString()}
         </small>
       </Card.Body>
       <Card.Footer style={{ textAlign: 'right' }}>

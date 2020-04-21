@@ -1,12 +1,12 @@
-import React, { useState, ReactElement, useCallback } from 'react';
+import React, { useState, ReactElement } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { UserInterface } from './common/interfaces';
-import { Form, Button } from 'react-bootstrap';
+import { Routes } from './common/Routes';
 import { API } from './__mocks__';
 import LandingPage from './components/pages/LandingPage/LandingPage';
 import MyClubsPage from './components/pages/MyClubs/MyClubsPage';
 import Header from './components/Header/Header';
-import Routes from './common/Routes';
+import SignInPage from './components/pages/SignIn/SignInPage';
 import './App.css';
 
 function App(): ReactElement {
@@ -16,21 +16,14 @@ function App(): ReactElement {
   return (
     <Router>
       <div>
-        <Header user={user}></Header>
+        <Header user={user} />
         <Switch>
           <Route exact path={Routes.HOME}>
             {user && <Redirect to={Routes.MY_CLUBS}></Redirect>}
             {!user && <LandingPage></LandingPage>}
           </Route>
           <Route path={Routes.SIGN_IN}>
-            {!user && (
-              <SignIn
-                handleLogIn={(user: UserInterface) => {
-                  setUser(user);
-                }}
-                api={api}
-              />
-            )}
+            {!user && <SignInPage handleLogIn={setUser} api={api} />}
             {user && <Redirect to={Routes.MY_CLUBS} />}
           </Route>
           <Route path={Routes.SIGN_OUT}>
@@ -56,56 +49,6 @@ function App(): ReactElement {
         </Switch>
       </div>
     </Router>
-  );
-}
-
-function SignIn(props: { handleLogIn(user: UserInterface): void; api: API }): ReactElement {
-  const [email, setEmail] = useState<string>('');
-  const [pass, setPass] = useState<string>('');
-
-  const login = useCallback(
-    async (e: any): Promise<void> => {
-      e.preventDefault();
-      const user = await props.api.login(email, pass);
-      if (user) {
-        props.handleLogIn(user);
-      } else {
-        setEmail('');
-        setPass('');
-      }
-    },
-    [setEmail, setPass, props, email, pass],
-  );
-
-  return (
-    <>
-      <Form onSubmit={login}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            onChange={(event: any) => setEmail(event.target.value)}
-            value={email}
-            required={true}
-          />
-          <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
-        </Form.Group>
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            value={pass}
-            onChange={(event: any) => setPass(event.target.value)}
-            required={true}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
-    </>
   );
 }
 

@@ -1,9 +1,11 @@
 import { ReactElement } from 'react';
 import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import Routes from '../../common/Routes';
 import { LinkContainer } from 'react-router-bootstrap';
 import { UserInterface } from '../../common/interfaces';
+import { useLocation } from 'react-router-dom';
+import { RouteTitles } from '../../common/Routes/RouteTitles';
+import { Routes } from '../../common/Routes';
 
 export interface HeaderProps {
   user?: UserInterface;
@@ -11,12 +13,16 @@ export interface HeaderProps {
 
 function Header(props: HeaderProps): ReactElement {
   const isLoggedIn = props.user !== undefined;
-
+  const route = RouteTitles.get(useLocation().pathname);
   return (
     <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
       <LinkContainer to={Routes.HOME}>
         <Navbar.Brand>Book Nook</Navbar.Brand>
       </LinkContainer>
+
+      <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+        <Navbar.Brand>{route}</Navbar.Brand>
+      </div>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="ml-auto">

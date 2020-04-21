@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import React from 'react';
 import './LandingPage.css';
-import Routes from '../../../common/Routes';
+import { Routes } from '../../../common/Routes';
 import { Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import ImageCredit from '../../../common/components/ImageCredit';

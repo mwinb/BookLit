@@ -35,4 +35,9 @@ describe('Club Card', () => {
   it('retrieves the club owners user name', () => {
     expect(renderedComponent.text()).toContain(mockUsers[0].name);
   });
+
+  it('shows the date created in the club card', () => {
+    const expectedDate = new Date(mockClubs[0].created).toDateString();
+    expect(renderedComponent.text()).toContain(expectedDate);
+  });
 });

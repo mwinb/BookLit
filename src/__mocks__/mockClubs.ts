@@ -7,7 +7,9 @@ export const mockClubs: ClubInterface[] = [
     members: ['1', '2'],
     topics: ['1', '2', '3'],
     owner: '1',
-    created: '',
+    created: '2020-04-21T00:48:35.169Z',
+    description: 'This is a description',
+    public: true,
   },
   {
     id: '2',
@@ -16,7 +18,9 @@ export const mockClubs: ClubInterface[] = [
     members: ['2', '3'],
     topics: ['1', '2'],
     owner: '2',
-    created: '',
+    created: '2020-04-21T00:48:35.169Z',
+    description: 'This is a description',
+    public: true,
 
   },
   {
@@ -26,6 +30,8 @@ export const mockClubs: ClubInterface[] = [
     members: ['1', '3'],
     topics: ['1'],
     owner: '3',
-    created: '',
+    created: '2020-04-21T00:48:35.169Z',
+    description: 'This is a description',
+    public: true,
   },
 ];
