@@ -61,7 +61,8 @@ describe('New Club Page Inputs', () => {
 
   describe('Required Fields', () => {
     it('Requires a club name', () => {
-      expect(JSON.stringify(clubNameInput.props().required)).toBe('true');
+      const props: any = clubNameInput.props();
+      expect(JSON.stringify(props.required)).toBe('true');
     });
   });
 
