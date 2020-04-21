@@ -1,0 +1,14 @@
+.backgroundDiv {
+  background-image: url('../../../assets/images/lacie-slezak-yHG6llFLjS0-unsplash.jpg');
+  background-size: cover;
+  background-blend-mode: darken;
+  color: white;
+  text-align: center;
+  height: 100vh;
+}
+
+.backgroundShade {
+  background-color: rgba(4, 1, 0, 0.7);
+  height: 100vh;
+  padding: 2%;
+}

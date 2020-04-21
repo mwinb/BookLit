@@ -5,6 +5,7 @@ import { Routes } from './common/Routes';
 import { API } from './__mocks__';
 import LandingPage from './components/pages/LandingPage/LandingPage';
 import MyClubsPage from './components/pages/MyClubs/MyClubsPage';
+import NewClubPage from './components/pages/NewClub/NewClub';
 import Header from './components/Header/Header';
 import SignInPage from './components/pages/SignIn/SignInPage';
 import './App.css';
@@ -44,7 +45,8 @@ function App(): ReactElement {
             {!user && <Redirect to={Routes.HOME}></Redirect>}
           </Route>
           <Route path={Routes.NEW_CLUB}>
-            <h1>New Club</h1>
+            {user && <NewClubPage setUser={setUser} user={user} api={api} />}
+            {!user && <Redirect to={Routes.HOME}></Redirect>}{' '}
           </Route>
         </Switch>
       </div>

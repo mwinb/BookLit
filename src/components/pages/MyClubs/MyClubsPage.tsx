@@ -3,7 +3,7 @@ import { UserInterface, ClubInterface } from '../../../common/interfaces';
 import { API } from '../../../__mocks__';
 import ClubCard from './ClubCard/ClubCard';
 import { CardDeck } from 'react-bootstrap';
-import Colors from '../../../common/Styles/Colors';
+import PageWrapper from '../../../common/components/PageWrapper/PageWrapper';
 
 export interface MyClubsPageProps {
   user: UserInterface;
@@ -25,14 +25,14 @@ function MyClubsPage(props: MyClubsPageProps): ReactElement {
   }, [props.user.clubs, getClubs]);
 
   return (
-    <div style={{ textAlign: 'center', backgroundColor: Colors.BACKGROUND, minHeight: '100vh', padding: '2%' }}>
+    <PageWrapper shadeStyle={{ textAlign: 'center', overflow: 'scroll' }}>
       <CardDeck>
         {clubs &&
           clubs.map((club, index) => {
             return <ClubCard key={`ClubCard: ${club.id}:${index}`} club={club} />;
           })}
       </CardDeck>
-    </div>
+    </PageWrapper>
   );
 }
 

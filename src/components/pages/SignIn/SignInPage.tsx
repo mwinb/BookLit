@@ -1,8 +1,8 @@
 import { UserInterface } from '../../../common/interfaces';
 import { API } from '../../../__mocks__';
 import React, { ReactElement, useState, useCallback } from 'react';
-import Colors from '../../../common/Styles/Colors';
 import { Alert, Card, Form, Button } from 'react-bootstrap';
+import PageWrapper from '../../../common/components/PageWrapper/PageWrapper';
 
 function SignInPage(props: { handleLogIn(user: UserInterface): void; api: API }): ReactElement {
   const [email, setEmail] = useState<string>('');
@@ -25,9 +25,9 @@ function SignInPage(props: { handleLogIn(user: UserInterface): void; api: API })
   );
 
   return (
-    <div style={{ textAlign: 'center', backgroundColor: Colors.BACKGROUND, minHeight: '100vh', padding: '2%' }}>
+    <PageWrapper>
       {error && <Alert variant="danger">{error}</Alert>}
-      <Card bg="dark" text="white" style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto', padding: '2.5%' }}>
+      <Card bg="dark" text="white" style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto', padding: '2%' }}>
         <Form onSubmit={login}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
@@ -57,7 +57,7 @@ function SignInPage(props: { handleLogIn(user: UserInterface): void; api: API })
           </Button>
         </Form>
       </Card>
-    </div>
+    </PageWrapper>
   );
 }
 

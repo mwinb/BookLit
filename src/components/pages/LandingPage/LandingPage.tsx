@@ -5,11 +5,12 @@ import { Routes } from '../../../common/Routes';
 import { Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import ImageCredit from '../../../common/components/ImageCredit';
+import PageWrapper from '../../../common/components/PageWrapper/PageWrapper';
 
 function LandingPage(): ReactElement {
   return (
-    <div className="landingJumbo">
-      <div style={{ backgroundColor: 'rgba(4, 1, 0, .7)', padding: '15vw', height: '100vh' }}>
+    <>
+      <PageWrapper shadeStyle={{ padding: '15vw' }}>
         <h1>Welcome To Book Nook!</h1>
         <p className="aboutText" style={{ marginTop: 0, marginBottom: 0 }}>
           Connect with friends or other readers around the world instantly.
@@ -19,7 +20,7 @@ function LandingPage(): ReactElement {
           <Button>Sign Up</Button>
         </LinkContainer>
         <br />
-      </div>
+      </PageWrapper>
       <div style={{ position: 'absolute', bottom: 0, margin: 2 }}>
         <ImageCredit
           url={
@@ -28,7 +29,7 @@ function LandingPage(): ReactElement {
           label={'Lacie Slezak'}
         />
       </div>
-    </div>
+    </>
   );
 }
 

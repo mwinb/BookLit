@@ -39,4 +39,14 @@ export class API {
         const clubs = this._database._findClubs(ids);
         if (clubs && clubs.length > 0) return clubs;
     }
+
+    async createClub(newClub: ClubInterface): Promise<string | undefined> {
+        const id = this._database._addClub(newClub);
+        return id;
+    }
+
+    async updateUser(updatedUser: UserInterface): Promise<string | undefined> {
+        const user = this._database._updateUser(updatedUser);
+        return user;
+    }
 }

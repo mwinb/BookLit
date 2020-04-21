@@ -1,4 +1,3 @@
-
 import { ClubInterface, UserInterface } from "../common/interfaces";
 import { mockClubs, mockUsers, mockCredentials } from ".";
 
@@ -40,6 +39,26 @@ export class MockDataBase {
                 return [...users, user];
             else return users;
         }, users);
+    }
+
+    _updateUser(user: UserInterface): string | undefined {
+        let updatedUser = this._findUser(user.id);
+        if (updatedUser) {
+            updatedUser = { ...user, id: updatedUser.id }
+            this._mockUsers = this._mockUsers.map((currentUser) => {
+                if (updatedUser && currentUser.id === updatedUser.id)
+                    return updatedUser
+                else
+                    return user;
+            });
+        }
+        return updatedUser?.id;
+    }
+
+    _addClub(createdClub: ClubInterface): string | undefined {
+        let newClub = { ...createdClub, id: `${this._mockClubs.length + 1}`, created: new Date().toJSON() };
+        this._mockClubs.push(newClub);
+        return newClub.id;
     }
 
     _findClub(id: string): ClubInterface | undefined {

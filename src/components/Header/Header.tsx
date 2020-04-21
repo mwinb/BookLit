@@ -25,10 +25,12 @@ function Header(props: HeaderProps): ReactElement {
       </div>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav className="ml-auto">
+        <Nav className="ml-auto" activeKey={route}>
           {!isLoggedIn && (
             <LinkContainer to={Routes.SIGN_IN}>
-              <Nav.Link className="mr-sm-2">Sign In</Nav.Link>
+              <Nav.Link className="mr-sm-2" eventKey={Routes.SIGN_IN}>
+                Sign In
+              </Nav.Link>
             </LinkContainer>
           )}
           {isLoggedIn && <UserDropDown user={props.user}></UserDropDown>}
@@ -45,18 +47,20 @@ interface UserDropDownProps {
 function UserDropDown(props: UserDropDownProps): ReactElement {
   return (
     <>
-      <NavDropdown alignRight className="" title={props.user?.name} id="collasible-nav-dropdown">
+      <NavDropdown alignRight className="danger" title={props.user?.name} id="collasible-nav-dropdown">
         <LinkContainer to={Routes.MY_SETTINGS}>
-          <NavDropdown.Item>My Settings</NavDropdown.Item>
+          <NavDropdown.Item className="dark-link" eventKey={Routes.MY_SETTINGS}>
+            My Settings
+          </NavDropdown.Item>
         </LinkContainer>
         <LinkContainer to={Routes.MY_CLUBS}>
-          <NavDropdown.Item>My Clubs</NavDropdown.Item>
+          <NavDropdown.Item eventKey={Routes.MY_CLUBS}>My Clubs</NavDropdown.Item>
         </LinkContainer>
         <LinkContainer to={Routes.NEW_CLUB}>
-          <NavDropdown.Item>New Club</NavDropdown.Item>
+          <NavDropdown.Item eventKey={Routes.NEW_CLUB}>New Club</NavDropdown.Item>
         </LinkContainer>
         <LinkContainer to={Routes.SIGN_OUT}>
-          <NavDropdown.Item>Sign Out</NavDropdown.Item>
+          <NavDropdown.Item eventKey={Routes.SIGN_OUT}>Sign Out</NavDropdown.Item>
         </LinkContainer>
       </NavDropdown>
     </>

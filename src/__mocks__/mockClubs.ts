@@ -10,6 +10,8 @@ export const mockClubs: ClubInterface[] = [
     created: '2020-04-21T00:48:35.169Z',
     description: 'This is a description',
     public: true,
+    generalChat: '',
+    joinRequests: []
   },
   {
     id: '2',
@@ -21,6 +23,8 @@ export const mockClubs: ClubInterface[] = [
     created: '2020-04-21T00:48:35.169Z',
     description: 'This is a description',
     public: true,
+    generalChat: '',
+    joinRequests: []
 
   },
   {
@@ -33,5 +37,7 @@ export const mockClubs: ClubInterface[] = [
     created: '2020-04-21T00:48:35.169Z',
     description: 'This is a description',
     public: true,
+    generalChat: '',
+    joinRequests: []
   },
 ];
