@@ -14,7 +14,7 @@ function MyClubsPage(props: MyClubsPageProps): ReactElement {
 
   const getClubs = useCallback(
     async (clubs) => {
-      const clubsInterfaces = await props.api.getClubs(clubs);
+      const clubsInterfaces = await props.api.getClubsByIds(clubs);
       setClubs(clubsInterfaces);
     },
     [props.api],

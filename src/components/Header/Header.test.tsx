@@ -45,7 +45,6 @@ describe('Header when user is logged in', () => {
         <Header {...props} />
       </BrowserRouter>,
     );
-    renderedComponent.find('.dropdown-toggle').first().simulate('click');
   });
 
   it('renders a sign out link with the user is logged in', () => {

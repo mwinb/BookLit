@@ -13,7 +13,7 @@ function ClubCard(props: ClubCardProps): ReactElement {
 
   const retrieveClubOwner = useCallback(
     async (clubOwnerId) => {
-      const clubOwner = await API.getInstance().getUser(clubOwnerId);
+      const clubOwner = await API.getInstance().getUserById(clubOwnerId);
       setClubCreator(clubOwner?.name);
     },
     [setClubCreator],
@@ -64,7 +64,7 @@ function ClubCard(props: ClubCardProps): ReactElement {
         </small>
       </Card.Body>
       <Card.Footer style={{ textAlign: 'right' }}>
-        <LinkContainer to={`${Routes.CLUB}/${props.club.id}`}>
+        <LinkContainer to={{ pathname: Routes.CLUB, state: { club: props.club } }}>
           <Button variant="success">Open</Button>
         </LinkContainer>
       </Card.Footer>

@@ -1,6 +1,9 @@
+import { TopicInterface } from './../common/interfaces/TopicInterface';
 import { MockDataBase } from "./mockDatabase";
-import { UserInterface, ClubInterface } from "../common/interfaces";
+import { UserInterface, ClubInterface, CommentInterface } from "../common/interfaces";
 
+// This will all be replaced once I begin building the back end API.
+// For now it provides names, design, and asynchronous calls to use on front ent. 
 export class API {
     static _instance: API;
     _database = MockDataBase.getInstance();
@@ -17,36 +20,59 @@ export class API {
     // Will be replaced with 3rd party authentication (google/keycloak/firebase) just need to simulate login flow. 
     async login(email: string, password: string): Promise<UserInterface | undefined> {
         const id = this._database._login(email, password);
-        if (id) return await this.getUser(id);
+        if (id) return await this.getUserById(id);
     }
 
-    async getUser(id: string): Promise<UserInterface | undefined> {
-        const user = this._database._findUser(id);
-        if (user) return user;
+    async getUserById(id: string): Promise<UserInterface | undefined> {
+        return this._database._findUser(id);
     }
 
-    async getUsers(ids: string[]): Promise<UserInterface[] | undefined> {
-        const users = this._database._findUsers(ids);
-        if (users && users.length > 0) return users;
-    }
+    async getUsersByIds(ids: string[]): Promise<UserInterface[] | undefined> {
+        return this._database._findUsers(ids);
 
-    async getClub(id: string): Promise<ClubInterface | undefined> {
-        const club = this._database._findClub(id);
-        if (club) return club;
-    }
-
-    async getClubs(ids: string[]): Promise<ClubInterface[] | undefined> {
-        const clubs = this._database._findClubs(ids);
-        if (clubs && clubs.length > 0) return clubs;
-    }
-
-    async createClub(newClub: ClubInterface): Promise<string | undefined> {
-        const id = this._database._addClub(newClub);
-        return id;
     }
 
     async updateUser(updatedUser: UserInterface): Promise<string | undefined> {
-        const user = this._database._updateUser(updatedUser);
-        return user;
+        return this._database._updateUser(updatedUser);
+    }
+
+    async getClubById(id: string): Promise<ClubInterface | undefined> {
+        return this._database._findClub(id);
+    }
+
+    async getClubsByIds(ids: string[]): Promise<ClubInterface[] | undefined> {
+        return this._database._findClubs(ids);
+    }
+
+    async createClub(newClub: ClubInterface): Promise<string | undefined> {
+        return this._database._addClub(newClub);
+    }
+
+    async getTopicById(topicId: string): Promise<TopicInterface | undefined> {
+        return this._database._findTopic(topicId);
+    }
+
+    async getTopicsByClub(clubId: string): Promise<TopicInterface[] | undefined> {
+        return this._database._findTopics(clubId);
+    }
+
+    async addTopic(topic: TopicInterface): Promise<string | undefined> {
+        return this._database._addTopic(topic);
+    }
+
+    async updateTopic(topic: TopicInterface): Promise<string | undefined> {
+        return this._database._updateTopic(topic);
+    }
+
+    async getCommentsByTopic(topicId: string): Promise<CommentInterface[] | undefined> {
+        return this._database._findComments(topicId);
+    }
+
+    async addComment(comment: CommentInterface): Promise<string | undefined> {
+        return this._database._addComment(comment);
+    }
+
+    async updateComment(comment: CommentInterface): Promise<string | undefined> {
+        return this._database._updateComment(comment);
     }
 }

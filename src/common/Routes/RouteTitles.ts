@@ -7,6 +7,7 @@ export const RouteTitles = new Map<string, string>(
         [Routes.NEW_CLUB, 'New Club'],
         [Routes.SIGN_IN, 'Sign In'],
         [Routes.SIGN_UP, 'Sign Up'],
-        [Routes.MY_SETTINGS, 'My Settings']
+        [Routes.MY_SETTINGS, 'My Settings'],
+        [Routes.CLUB, 'Club']
     ]
 )

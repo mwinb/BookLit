@@ -1,10 +1,14 @@
-import { ClubInterface, UserInterface } from "../common/interfaces";
+import { mockComments } from './mockComments';
+import { mockTopics } from './mockTopics';
+import { ClubInterface, UserInterface, TopicInterface, CommentInterface } from "../common/interfaces";
 import { mockClubs, mockUsers, mockCredentials } from ".";
 
 export class MockDataBase {
     private static _instance: MockDataBase;
     _mockClubs: ClubInterface[] = mockClubs;
     _mockUsers: UserInterface[] = mockUsers;
+    _mockTopics: TopicInterface[] = mockTopics;
+    _mockComments: CommentInterface[] = mockComments;
     _mockCredentials = mockCredentials;
     private constructor() {
     }
@@ -42,17 +46,19 @@ export class MockDataBase {
     }
 
     _updateUser(user: UserInterface): string | undefined {
-        let updatedUser = this._findUser(user.id);
-        if (updatedUser) {
-            updatedUser = { ...user, id: updatedUser.id }
-            this._mockUsers = this._mockUsers.map((currentUser) => {
-                if (updatedUser && currentUser.id === updatedUser.id)
-                    return updatedUser
-                else
-                    return user;
-            });
+        let index = this._mockClubs.findIndex(e => e.id === user.id);
+        if (index) {
+            this._mockUsers[index] = { ...user };
+            return user.id;
         }
-        return updatedUser?.id;
+    }
+
+    _updateClub(club: ClubInterface): string | undefined {
+        let index = this._mockClubs.findIndex(e => e.id === club.id);
+        if (index) {
+            this._mockClubs[index] = { ...club };
+            return club.id;
+        }
     }
 
     _addClub(createdClub: ClubInterface): string | undefined {
@@ -62,9 +68,9 @@ export class MockDataBase {
     }
 
     _findClub(id: string): ClubInterface | undefined {
-        return this._mockClubs.find(club => {
-            return club.id === id;
-        })
+        return this._mockClubs.find(club =>
+            club.id === id
+        )
     }
 
     _findClubs(ids: string[]): ClubInterface[] | undefined {
@@ -77,4 +83,58 @@ export class MockDataBase {
                 return clubs
         }, clubs);
     }
+
+    _updateTopic(topic: TopicInterface): string | undefined {
+        const index = this._mockTopics.findIndex(e => e.id === topic.id);
+        if (index) {
+            this._mockTopics[index] = { ...topic };
+            return topic.id;
+        }
+    }
+
+    _addTopic(createdTopic: TopicInterface): string | undefined {
+        let newTopic = { ...createdTopic, id: `${this._mockTopics.length + 1}`, created: new Date().toJSON() }
+        this._mockTopics.push(newTopic);
+        return newTopic.id;
+    }
+
+    _findTopics(clubId: string): TopicInterface[] {
+        return this._mockTopics.map(topic => {
+            if (topic.club === clubId) {
+                return topic;
+            }
+        }) as TopicInterface[];
+    }
+
+    _findTopic(topicId: string): TopicInterface | undefined {
+        return this._mockTopics.find(topic =>
+            topic.id === topicId
+        )
+    }
+
+    _addComment(comment: CommentInterface): string | undefined {
+        const newComment = { ...comment, id: `${this._mockComments.length + 1}`, created: new Date().toJSON() };
+        this._mockComments.push(newComment);
+        return newComment.id;
+    }
+
+    _findComments(topicId: string): CommentInterface[] {
+        return this._mockComments.map(comment => {
+            if (comment.topic === topicId)
+                return comment;
+        }) as CommentInterface[];
+    }
+
+    _findComment(commentId: string): CommentInterface | undefined {
+        return this._mockComments.find(comment => comment.id === commentId);
+    }
+
+    _updateComment(comment: CommentInterface): string | undefined {
+        const index = this._mockComments.findIndex(e => e.id === comment.id);
+        if (index) {
+            this._mockComments[index] = { ...comment };
+            return comment.id;
+        }
+    }
+
 }

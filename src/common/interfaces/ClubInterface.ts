@@ -5,7 +5,7 @@ export interface ClubInterface {
     book: string,
     description: string,
     members: string[],
-    joinRequests: { id: string, message: string }[],
+    joinRequests: { user: string, message: string }[],
     generalChat: string,
     owner: string,
     topics: string[],
