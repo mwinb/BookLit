@@ -99,11 +99,9 @@ export class MockDataBase {
     }
 
     _findTopics(clubId: string): TopicInterface[] {
-        return this._mockTopics.map(topic => {
-            if (topic.club === clubId) {
-                return topic;
-            }
-        }) as TopicInterface[];
+        return this._mockTopics.filter(topic =>
+            topic.club === clubId
+        );
     }
 
     _findTopic(topicId: string): TopicInterface | undefined {
@@ -119,10 +117,9 @@ export class MockDataBase {
     }
 
     _findComments(topicId: string): CommentInterface[] {
-        return this._mockComments.map(comment => {
-            if (comment.topic === topicId)
-                return comment;
-        }) as CommentInterface[];
+        return this._mockComments.filter(comment =>
+            comment.topic === topicId
+        );
     }
 
     _findComment(commentId: string): CommentInterface | undefined {

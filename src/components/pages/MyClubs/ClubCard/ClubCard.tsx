@@ -5,11 +5,15 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Routes } from '../../../../common/Routes';
 import { API } from '../../../../__mocks__';
 
+const MIN_CARD_WIDTH = 70;
+const MAX_CARD_WIDTH = 90;
+const WINDOW_SIZE_CUT_OFF = 800;
 export interface ClubCardProps {
   club: ClubInterface;
 }
 function ClubCard(props: ClubCardProps): ReactElement {
   const [clubCreator, setClubCreator] = useState<string>();
+  const [minCardWidth] = useState<number>(window.innerWidth < WINDOW_SIZE_CUT_OFF ? MAX_CARD_WIDTH : MIN_CARD_WIDTH);
 
   const retrieveClubOwner = useCallback(
     async (clubOwnerId) => {
@@ -22,6 +26,7 @@ function ClubCard(props: ClubCardProps): ReactElement {
   useEffect(() => {
     retrieveClubOwner(props.club.owner);
   }, [retrieveClubOwner, props.club.owner]);
+
   return (
     <Card
       bg="dark"
@@ -29,7 +34,7 @@ function ClubCard(props: ClubCardProps): ReactElement {
       border="success"
       style={{
         maxWidth: 'max-content',
-        minWidth: '70%',
+        minWidth: `${minCardWidth}%`,
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: '2%',
@@ -63,7 +68,7 @@ function ClubCard(props: ClubCardProps): ReactElement {
           Created: {new Date(props.club.created).toDateString()}
         </small>
       </Card.Body>
-      <Card.Footer style={{ textAlign: 'right' }}>
+      <Card.Footer>
         <LinkContainer to={{ pathname: Routes.CLUB, state: { club: props.club } }}>
           <Button variant="success">Open</Button>
         </LinkContainer>
