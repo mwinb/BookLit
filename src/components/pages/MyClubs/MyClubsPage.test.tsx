@@ -12,7 +12,7 @@ let api = API.getInstance();
 
 beforeEach(async () => {
   user = mockUsers[0];
-  jest.spyOn(API.prototype, 'getClubs').mockResolvedValue([mockClubs[0]]);
+  jest.spyOn(API.prototype, 'getClubsByIds').mockResolvedValue([mockClubs[0]]);
   await act(async () => {
     renderedComponent = mount(
       <BrowserRouter>

@@ -9,7 +9,7 @@ import { mockUsers, mockClubs } from '../../../../__mocks__';
 let renderedComponent: ReactWrapper;
 
 beforeEach(async () => {
-  jest.spyOn(API.prototype, 'getUser').mockResolvedValue(mockUsers[0]);
+  jest.spyOn(API.prototype, 'getUserById').mockResolvedValue(mockUsers[0]);
   await act(async () => {
     renderedComponent = mount(
       <BrowserRouter>
