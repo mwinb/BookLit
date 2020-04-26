@@ -3,7 +3,6 @@ import { UserInterface, ClubInterface } from '../../../common/interfaces';
 import { API } from '../../../__mocks__';
 import ClubCard from './ClubCard/ClubCard';
 import { CardDeck } from 'react-bootstrap';
-import PageWrapper from '../../../common/components/PageWrapper/PageWrapper';
 
 export interface MyClubsPageProps {
   user: UserInterface;
@@ -25,14 +24,14 @@ function MyClubsPage(props: MyClubsPageProps): ReactElement {
   }, [props.user.clubs, getClubs]);
 
   return (
-    <PageWrapper shadeStyle={{ textAlign: 'center', overflow: 'scroll' }}>
+    <div className="container overflow-scroll" style={{ width: '100%', height: '95%', overflowY: 'scroll' }}>
       <CardDeck>
         {clubs &&
           clubs.map((club, index) => {
             return <ClubCard key={`ClubCard: ${club.id}:${index}`} club={club} />;
           })}
       </CardDeck>
-    </PageWrapper>
+    </div>
   );
 }
 

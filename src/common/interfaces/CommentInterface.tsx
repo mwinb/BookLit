@@ -1,3 +1,5 @@
+export const ANON_USER: string = 'ANON';
+
 export interface CommentInterface {
   id: string;
   user: string;
@@ -7,3 +9,13 @@ export interface CommentInterface {
   agreements: string[];
   reports: string[];
 }
+
+export const DEFAULT_COMMENT: CommentInterface = {
+  id: '',
+  user: ANON_USER,
+  topic: '',
+  message: '',
+  created: '',
+  agreements: [],
+  reports: [],
+};

@@ -1,5 +1,4 @@
 import { FunctionComponent, ReactElement, useState, useCallback } from 'react';
-import PageWrapper from '../../../common/components/PageWrapper/PageWrapper';
 import React from 'react';
 import { DEFAULT_CLUB, ClubInterface, UserInterface } from '../../../common/interfaces';
 import { Alert, Card, Form, Button } from 'react-bootstrap';
@@ -48,9 +47,13 @@ const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement =
   return submitted ? (
     <Redirect to={Routes.HOME} />
   ) : (
-    <PageWrapper>
+    <>
       {error && <Alert variant="danger">{error}</Alert>}
-      <Card bg="dark" text="white" style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto', padding: '2%' }}>
+      <Card
+        bg="dark"
+        text="white"
+        style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto', padding: '2%', marginTop: '5%' }}
+      >
         <Form onSubmit={createClub}>
           <Form.Group>
             <Form.Label>Club Name</Form.Label>
@@ -92,7 +95,7 @@ const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement =
           </Button>
         </Form>
       </Card>
-    </PageWrapper>
+    </>
   );
 };
 

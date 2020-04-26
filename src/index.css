@@ -5,9 +5,15 @@ html {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-y: scroll;
-  height: 100vh;
+  overflow-y: none;
+  margin: none;
+  padding: none;
+  height: 100%;
   background-color: #191a1c;
+}
+
+#root {
+  height: 100%;
 }
 
 code {

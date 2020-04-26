@@ -1,0 +1,14 @@
+.navbar-nav .dropdown-menu {
+  max-height: 25vh;
+  overflow-y: scroll;
+  background-color: #212529 !important;
+  color: white;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item {
+  color: white;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+  color: black;
+}

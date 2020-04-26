@@ -3,8 +3,8 @@ export interface TopicInterface {
     name: string,
     description: string,
     club: string,
-    comments: string[],
     created: string,
+    public: boolean,
 }
 
 
@@ -13,6 +13,6 @@ export const DEFAULT_TOPIC: TopicInterface = {
     name: '',
     description: '',
     club: '',
-    comments: [],
     created: '',
+    public: false,
 }

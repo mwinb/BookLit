@@ -14,10 +14,11 @@ export interface HeaderProps {
 function Header(props: HeaderProps): ReactElement {
   const route = RouteTitles.get(useLocation().pathname);
   return (
-    <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark" className="p-1">
       <LinkContainer to={Routes.HOME}>
         <Navbar.Brand>Book Nook</Navbar.Brand>
       </LinkContainer>
+      <Navbar.Text>{props.user?.name}</Navbar.Text>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="ml-auto" activeKey={route}>
@@ -28,34 +29,25 @@ function Header(props: HeaderProps): ReactElement {
               </Nav.Link>
             </LinkContainer>
           )}
-          {props.user && <UserDropDown user={props.user}></UserDropDown>}
+          {props.user && (
+            <>
+              <LinkContainer to={Routes.MY_SETTINGS}>
+                <Nav.Link eventKey={Routes.MY_SETTINGS}>My Settings</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to={Routes.MY_CLUBS}>
+                <Nav.Link eventKey={Routes.MY_CLUBS}>My Clubs</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to={Routes.NEW_CLUB}>
+                <Nav.Link eventKey={Routes.NEW_CLUB}>New Club</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to={Routes.SIGN_OUT}>
+                <Nav.Link eventKey={Routes.SIGN_OUT}>Sign Out</Nav.Link>
+              </LinkContainer>
+            </>
+          )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-  );
-}
-
-interface UserDropDownProps {
-  user: UserInterface;
-}
-
-function UserDropDown(props: UserDropDownProps): ReactElement {
-  return (
-    <>
-      <Navbar.Brand>{props.user.name}</Navbar.Brand>
-      <LinkContainer to={Routes.MY_SETTINGS}>
-        <Nav.Link eventKey={Routes.MY_SETTINGS}>My Settings</Nav.Link>
-      </LinkContainer>
-      <LinkContainer to={Routes.MY_CLUBS}>
-        <Nav.Link eventKey={Routes.MY_CLUBS}>My Clubs</Nav.Link>
-      </LinkContainer>
-      <LinkContainer to={Routes.NEW_CLUB}>
-        <Nav.Link eventKey={Routes.NEW_CLUB}>New Club</Nav.Link>
-      </LinkContainer>
-      <LinkContainer to={Routes.SIGN_OUT}>
-        <Nav.Link eventKey={Routes.SIGN_OUT}>Sign Out</Nav.Link>
-      </LinkContainer>
-    </>
   );
 }
 

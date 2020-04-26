@@ -2,7 +2,6 @@ import { UserInterface } from '../../../common/interfaces';
 import { API } from '../../../__mocks__';
 import React, { ReactElement, useState, useCallback } from 'react';
 import { Alert, Card, Form, Button } from 'react-bootstrap';
-import PageWrapper from '../../../common/components/PageWrapper/PageWrapper';
 
 function SignInPage(props: { handleLogIn(user: UserInterface): void; api: API }): ReactElement {
   const [email, setEmail] = useState<string>('');
@@ -25,7 +24,7 @@ function SignInPage(props: { handleLogIn(user: UserInterface): void; api: API })
   );
 
   return (
-    <PageWrapper>
+    <div>
       {error && <Alert variant="danger">{error}</Alert>}
       <Card bg="dark" text="white" style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto', padding: '2%' }}>
         <Form onSubmit={login}>
@@ -57,7 +56,7 @@ function SignInPage(props: { handleLogIn(user: UserInterface): void; api: API })
           </Button>
         </Form>
       </Card>
-    </PageWrapper>
+    </div>
   );
 }
 

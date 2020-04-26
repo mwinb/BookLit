@@ -10,14 +10,15 @@ import Header from './components/Header/Header';
 import SignInPage from './components/pages/SignIn/SignInPage';
 import './App.css';
 import ClubPage from './components/pages/ClubPage/ClubPage';
+import PageWrapper from './components/PageWrapper/PageWrapper';
 
 function App(): ReactElement {
   const [user, setUser] = useState<UserInterface | undefined>(mockUsers[0]);
   const [api] = useState<API>(API.getInstance());
 
   return (
-    <Router>
-      <div>
+    <PageWrapper>
+      <Router>
         <Header user={user} />
         <Switch>
           <Route exact path={Routes.HOME}>
@@ -50,12 +51,12 @@ function App(): ReactElement {
             {!user && <Redirect to={Routes.HOME}></Redirect>}{' '}
           </Route>
           <Route path={Routes.CLUB}>
-            {user && <ClubPage user={user} />}
+            {user && <ClubPage api={api} user={user} />}
             {!user && <Redirect to={Routes.HOME} />}
           </Route>
         </Switch>
-      </div>
-    </Router>
+      </Router>
+    </PageWrapper>
   );
 }
 
