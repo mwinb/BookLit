@@ -1,6 +1,6 @@
 import { mockComments } from './mockComments';
 import { mockTopics } from './mockTopics';
-import { ClubInterface, UserInterface, TopicInterface, CommentInterface } from "../common/interfaces";
+import { ClubInterface, UserInterface, TopicInterface, CommentInterface, DEFAULT_TOPIC } from "../common/interfaces";
 import { mockClubs, mockUsers, mockCredentials } from ".";
 
 export class MockDataBase {
@@ -62,9 +62,20 @@ export class MockDataBase {
     }
 
     _addClub(createdClub: ClubInterface): string | undefined {
-        let newClub = { ...createdClub, id: `${this._mockClubs.length + 1}`, created: new Date().toJSON() };
-        this._mockClubs.push(newClub);
-        return newClub.id;
+        const generalChatId = this._addTopic({ ...DEFAULT_TOPIC, name: 'General Chat', description: 'Club Chat', public: true });
+        let generalChat: TopicInterface | undefined = undefined;
+        if (generalChatId) {
+            generalChat = this._findTopic(generalChatId)
+            const newClub = {
+                ...createdClub, id: `${this._mockClubs.length + 1}`,
+                created: new Date().toJSON(),
+                generalChat: generalChatId,
+                topics: [generalChatId]
+            };
+            if (generalChat) this._updateTopic({ ...generalChat, club: newClub.id })
+            this._mockClubs.push(newClub);
+            return newClub.id;
+        }
     }
 
     _findClub(id: string): ClubInterface | undefined {
