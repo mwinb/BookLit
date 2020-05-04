@@ -106,6 +106,11 @@ export class MockDataBase {
     _addTopic(createdTopic: TopicInterface): string | undefined {
         let newTopic = { ...createdTopic, id: `${this._mockTopics.length + 1}`, created: new Date().toJSON() }
         this._mockTopics.push(newTopic);
+        const club = this._findClub(newTopic.club);
+        if (club) {
+            club.topics.push(newTopic.id);
+            this._updateClub(club);
+        }
         return newTopic.id;
     }
 

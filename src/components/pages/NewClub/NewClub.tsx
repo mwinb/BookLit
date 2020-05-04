@@ -28,6 +28,9 @@ const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement =
        */
       const clubId = await props.api.createClub({
         ...club,
+        name: club.name.trimRight(),
+        description: club.description.trimRight(),
+        book: club.book.trimRight(),
         owner: props.user.id,
         public: true,
         members: [props.user.id],
@@ -62,7 +65,7 @@ const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement =
               minLength={6}
               id="clubNameInput"
               placeholder="Enter Name Of Club"
-              onChange={(event: any) => setClub({ ...club, name: event.target.value })}
+              onChange={(event: any) => setClub({ ...club, name: event.target.value.trimLeft() })}
               value={club.name}
               style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto' }}
               required={true}
@@ -76,7 +79,7 @@ const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement =
               placeholder="Please Provide a Description"
               value={club.description}
               style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto' }}
-              onChange={(event: any) => setClub({ ...club, description: event.target.value })}
+              onChange={(event: any) => setClub({ ...club, description: event.target.value.trimLeft() })}
             />
           </Form.Group>
           <Form.Group>
@@ -87,7 +90,7 @@ const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement =
               placeholder="Enter Name of Book (can be changed later)"
               value={club.book}
               style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto' }}
-              onChange={(event: any) => setClub({ ...club, book: event.target.value })}
+              onChange={(event: any) => setClub({ ...club, book: event.target.value.trimLeft() })}
             />
           </Form.Group>
           <Button variant="primary" type="submit">

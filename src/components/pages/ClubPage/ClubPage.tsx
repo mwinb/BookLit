@@ -6,6 +6,7 @@ import { Routes } from '../../../common/Routes';
 import TopicSwitcher from './TopicsSwitcher/TopicSwitcher';
 import { API } from '../../../__mocks__';
 import TopicBoard from './ClubTopicBoard/TopicBoard';
+import NewTopicButton from './ClubTopicBoard/NewTopic/NewTopic';
 
 export interface ClubPageProps {
   user: UserInterface;
@@ -56,6 +57,7 @@ const ClubPage: FunctionComponent<ClubPageProps> = (props) => {
             currentTopicId={currentTopicId}
             api={api}
           ></TopicSwitcher>
+          <NewTopicButton api={api} clubId={club.id} updateTopic={setCurrentTopicId}></NewTopicButton>
         </Navbar>
         <TopicBoard api={api} user={user} topicId={currentTopicId}></TopicBoard>
       </Card.Body>

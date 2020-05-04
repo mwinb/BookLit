@@ -5,7 +5,6 @@ import { mockUsers, API, mockClubs } from '../../../__mocks__';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { BrowserRouter } from 'react-router-dom';
-import { mockTopics } from '../../../__mocks__/mockTopics';
 
 let renderedComponent: ReactWrapper;
 let createClubSpy: jest.SpyInstance<Promise<string | undefined>>;
