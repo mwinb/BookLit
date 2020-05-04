@@ -1,4 +1,4 @@
-#Front End for Book Nook
+#Front End for Book Lit
 
 ## Tasks
 
