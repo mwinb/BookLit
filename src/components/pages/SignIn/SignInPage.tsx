@@ -1,17 +1,17 @@
 import { UserInterface } from '../../../common/interfaces';
-import { API } from '../../../__mocks__';
 import React, { ReactElement, useState, useCallback } from 'react';
 import { Alert, Card, Form, Button } from 'react-bootstrap';
+import { login } from '../../../__mocks__';
 
-function SignInPage(props: { handleLogIn(user: UserInterface): void; api: API }): ReactElement {
+function SignInPage(props: { handleLogIn(user: UserInterface): void }): ReactElement {
   const [email, setEmail] = useState<string>('');
   const [pass, setPass] = useState<string>('');
   const [error, setError] = useState<string>();
 
-  const login = useCallback(
+  const executeLogin = useCallback(
     async (e: any): Promise<void> => {
       e.preventDefault();
-      const user = await props.api.login(email, pass);
+      const user = await login(email, pass);
       if (user) {
         props.handleLogIn(user);
       } else {
@@ -27,7 +27,7 @@ function SignInPage(props: { handleLogIn(user: UserInterface): void; api: API })
     <div>
       {error && <Alert variant="danger">{error}</Alert>}
       <Card bg="dark" text="white" style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto', padding: '2%' }}>
-        <Form onSubmit={login}>
+        <Form onSubmit={executeLogin}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control

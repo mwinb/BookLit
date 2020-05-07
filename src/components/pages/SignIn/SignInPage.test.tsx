@@ -2,8 +2,9 @@ import { ReactWrapper, mount } from 'enzyme';
 import SignInPage from './SignInPage';
 import React from 'react';
 import { UserInterface } from '../../../common/interfaces';
-import { API, mockUsers } from '../../../__mocks__';
+import { mockUsers } from '../../../__mocks__';
 import { act } from 'react-dom/test-utils';
+import * as Api from '../../../__mocks__/mockAPI';
 
 let testUser: UserInterface;
 
@@ -13,7 +14,6 @@ function setUser(user: UserInterface): void {
 
 const testProps = {
   handleLogIn: setUser,
-  api: API.getInstance(),
 };
 let renderedComponent: ReactWrapper;
 
@@ -49,7 +49,7 @@ describe('Log In Page', () => {
   });
 
   it('shows an error if the username and password do not exist', async () => {
-    jest.spyOn(API.prototype, 'login').mockResolvedValue(undefined);
+    jest.spyOn(Api, 'login').mockResolvedValue(undefined);
     const passwordInput = renderedComponent.find({ type: 'password' }).first();
     const emailInput = renderedComponent.find({ type: 'email' }).first();
     emailInput.simulate('change', { target: { value: 'testEmail@test.com' } });
@@ -62,7 +62,7 @@ describe('Log In Page', () => {
   });
 
   it('calls handleLogin with the user if the email and password exist', async () => {
-    jest.spyOn(API.prototype, 'login').mockResolvedValue(mockUsers[0]);
+    jest.spyOn(Api, 'login').mockResolvedValue(mockUsers[0]);
     const passwordInput = renderedComponent.find({ type: 'password' }).first();
     const emailInput = renderedComponent.find({ type: 'email' }).first();
     emailInput.simulate('change', { target: { value: 'testEmail@test.com' } });

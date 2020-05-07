@@ -2,32 +2,9 @@ import { FunctionComponent, ReactElement, useState, useCallback } from 'react';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import React from 'react';
 import { DEFAULT_TOPIC } from '../../../../../common/interfaces';
-import { API } from '../../../../../__mocks__';
 import { ERRORS } from '../../../../../common/errors';
-
-export interface NewTopicButtonProps {
-  api: API;
-  clubId: string;
-  updateTopic(newTopic: string): void;
-}
-
-export const NewTopicButton: FunctionComponent<NewTopicButtonProps> = (props): ReactElement => {
-  const [modalShow, setModalShow] = useState<boolean>(false);
-  const setShowTrue = () => {
-    setModalShow(true);
-  };
-  const setShowFalse = () => {
-    setModalShow(false);
-  };
-  return (
-    <>
-      <Button variant="primary" onClick={setShowTrue}>
-        +
-      </Button>
-      <NewTopicModal show={modalShow} onHide={setShowFalse} {...props} />
-    </>
-  );
-};
+import { addTopic } from '../../../../../__mocks__';
+import { NewTopicButtonProps } from './NewTopicButton';
 
 export interface NewTopicModalProps extends NewTopicButtonProps {
   show: boolean;
@@ -40,7 +17,7 @@ export const NewTopicModal: FunctionComponent<NewTopicModalProps> = (props): Rea
   const createTopic = useCallback(
     async (event: any) => {
       event.preventDefault();
-      const topicId = await props.api.addTopic({
+      const topicId = await addTopic({
         ...topic,
         name: topic.name.trimRight(),
         description: topic.description.trimRight(),
@@ -117,4 +94,4 @@ export const NewTopicModal: FunctionComponent<NewTopicModalProps> = (props): Rea
   );
 };
 
-export default NewTopicButton;
+export default NewTopicModal;

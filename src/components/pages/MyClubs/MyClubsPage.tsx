@@ -1,23 +1,19 @@
 import React, { ReactElement, useEffect, useCallback, useState } from 'react';
 import { UserInterface, ClubInterface } from '../../../common/interfaces';
-import { API } from '../../../__mocks__';
 import ClubCard from './ClubCard/ClubCard';
 import { CardDeck } from 'react-bootstrap';
+import { getClubsByIds } from '../../../__mocks__';
 
 export interface MyClubsPageProps {
   user: UserInterface;
-  api: API;
 }
 function MyClubsPage(props: MyClubsPageProps): ReactElement {
   const [clubs, setClubs] = useState<ClubInterface[]>();
 
-  const getClubs = useCallback(
-    async (clubs) => {
-      const clubsInterfaces = await props.api.getClubsByIds(clubs);
-      setClubs(clubsInterfaces);
-    },
-    [props.api],
-  );
+  const getClubs = useCallback(async (clubs) => {
+    const allClubs = await getClubsByIds(clubs);
+    setClubs(allClubs);
+  }, []);
 
   useEffect(() => {
     getClubs(props.user.clubs);

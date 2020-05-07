@@ -1,6 +1,7 @@
 import CommentInputForm, { CommentInputFormProps } from './CommentInput';
 import { mockTopics } from '../../../../../__mocks__/mockTopics';
-import { API, mockUsers } from '../../../../../__mocks__';
+import { mockUsers } from '../../../../../__mocks__';
+import * as Api from '../../../../../__mocks__/mockAPI';
 import { CommentInterface, ANON_USER } from '../../../../../common/interfaces';
 import { ReactWrapper, mount } from 'enzyme';
 import React from 'react';
@@ -14,15 +15,14 @@ let renderedComponent: ReactWrapper;
 const testProps: CommentInputFormProps = {
   topic: mockTopics[0],
   user: mockUsers[0],
-  api: API.getInstance(),
   updateComments: (comms: CommentInterface[] | undefined) => (comments = comms),
 };
 
 beforeEach(() => {
   comments = [];
   commentRepo = [];
-  jest.spyOn(API.prototype, 'getCommentsByTopic').mockResolvedValue(commentRepo);
-  jest.spyOn(API.prototype, 'addComment').mockImplementation(
+  jest.spyOn(Api, 'getCommentsByTopic').mockResolvedValue(commentRepo);
+  jest.spyOn(Api, 'addComment').mockImplementation(
     async (comment: CommentInterface): Promise<string | undefined> => {
       if (commentRepo) {
         commentRepo.push(comment);

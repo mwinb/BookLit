@@ -1,5 +1,5 @@
-import ClubCard from './ClubCard';
-import { API } from '../../../../__mocks__/mockAPI';
+import ClubCard, { MIN_CARD_WIDTH, WINDOW_SIZE_CUT_OFF, MAX_CARD_WIDTH, getMaxCardWidth } from './ClubCard';
+import * as Api from '../../../../__mocks__/mockAPI';
 import { ReactWrapper, mount } from 'enzyme';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { mockUsers, mockClubs } from '../../../../__mocks__';
 let renderedComponent: ReactWrapper;
 
 beforeEach(async () => {
-  jest.spyOn(API.prototype, 'getUserById').mockResolvedValue(mockUsers[0]);
+  jest.spyOn(Api, 'getUserById').mockResolvedValue(mockUsers[0]);
   await act(async () => {
     renderedComponent = mount(
       <BrowserRouter>
@@ -39,5 +39,17 @@ describe('Club Card', () => {
   it('shows the date created in the club card', () => {
     const expectedDate = new Date(mockClubs[0].created).toDateString();
     expect(renderedComponent.text()).toContain(expectedDate);
+  });
+});
+
+describe('getMaxCardWidth', () => {
+  it(`returns ${MAX_CARD_WIDTH} if windowWidth is less than ${WINDOW_SIZE_CUT_OFF}`, () => {
+    const maxCardWidth = getMaxCardWidth(WINDOW_SIZE_CUT_OFF - 1);
+    expect(maxCardWidth).toBe(MAX_CARD_WIDTH);
+  });
+
+  it(`return ${MIN_CARD_WIDTH} if windowWidth is greater than or equal to ${WINDOW_SIZE_CUT_OFF}`, () => {
+    const maxCardWidth = getMaxCardWidth(WINDOW_SIZE_CUT_OFF);
+    expect(maxCardWidth).toBe(MIN_CARD_WIDTH);
   });
 });

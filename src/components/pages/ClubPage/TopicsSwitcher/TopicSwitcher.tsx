@@ -1,14 +1,13 @@
 import { TopicInterface } from '../../../../common/interfaces';
 import React, { FunctionComponent, useEffect, useCallback, useState } from 'react';
-import { API } from '../../../../__mocks__';
 import { Nav, NavDropdown } from 'react-bootstrap';
 import './TopicSwitcher.css';
+import { getTopicsByClub, getTopicById } from '../../../../__mocks__';
 
 export interface TopicSwitcherProps {
   currentTopicId: string;
   clubId: string;
   setCurrentTopic(topicId: string): void;
-  api: API;
 }
 
 const TopicSwitcher: FunctionComponent<TopicSwitcherProps> = (props) => {
@@ -17,20 +16,20 @@ const TopicSwitcher: FunctionComponent<TopicSwitcherProps> = (props) => {
 
   const retrieveTopicFromId = useCallback(
     async (topicId: string) => {
-      const topic = await props.api.getTopicById(topicId);
+      const topic = await getTopicById(topicId);
       if (topic) {
         setCurrentTopicId(topic.id);
       }
     },
-    [setCurrentTopicId, props.api],
+    [setCurrentTopicId],
   );
 
   const retrieveAllTopicsFromClubId = useCallback(
     async (clubId: string) => {
-      const topics = await props.api.getTopicsByClub(clubId);
+      const topics = await getTopicsByClub(clubId);
       setAllTopics(topics);
     },
-    [props.api, setAllTopics],
+    [setAllTopics],
   );
 
   useEffect(() => {
@@ -40,13 +39,14 @@ const TopicSwitcher: FunctionComponent<TopicSwitcherProps> = (props) => {
 
   return (
     <Nav activeKey={props.currentTopicId}>
-      <NavDropdown title={'Topics'} id="topic-dropdown">
+      <NavDropdown title={'Topics'} id="topic-dropdown" className="m-2">
         {allTopics &&
           allTopics.map((topic, index) => {
             return (
               <NavDropdown.Item
                 key={`${topic.name}: ${index}`}
                 eventKey={topic.id}
+                id={`topicDropdown-${topic.id}`}
                 onClick={() => retrieveTopicFromId(topic.id)}
               >
                 {topic.name}

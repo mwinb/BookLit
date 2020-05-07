@@ -1,7 +1,8 @@
 import { ReactWrapper, mount } from 'enzyme';
 import { UserInterface, DEFAULT_USER } from '../../../common/interfaces';
 import NewClubPage, { NewClubPageProps } from './NewClub';
-import { mockUsers, API, mockClubs } from '../../../__mocks__';
+import { mockUsers, mockClubs } from '../../../__mocks__';
+import * as Api from '../../../__mocks__/mockAPI';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { BrowserRouter } from 'react-router-dom';
@@ -13,7 +14,6 @@ let mockSetUserFunction = (user: UserInterface) => (testUser = user);
 let TestProps: NewClubPageProps = {
   setUser: mockSetUserFunction,
   user: mockUsers[0],
-  api: API.getInstance(),
 };
 
 let clubNameInput: ReactWrapper;
@@ -22,8 +22,8 @@ let clubBookNameInput: ReactWrapper;
 let submitButton: ReactWrapper;
 
 beforeEach(() => {
-  jest.spyOn(API.prototype, 'updateUser').mockResolvedValue(mockUsers[0].id);
-  createClubSpy = jest.spyOn(API.prototype, 'createClub').mockResolvedValue(`${mockClubs.length + 1}`);
+  jest.spyOn(Api, 'updateUser').mockResolvedValue(mockUsers[0].id);
+  createClubSpy = jest.spyOn(Api, 'createClub').mockResolvedValue(`${mockClubs.length + 1}`);
   testUser = DEFAULT_USER;
   renderedComponent = mount(
     <BrowserRouter>

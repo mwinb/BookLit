@@ -7,12 +7,12 @@ import {
   TopicInterface,
   UserInterface,
 } from '../../../../../common/interfaces';
-import { API } from '../../../../../__mocks__';
+import { getCommentsByTopic, addComment } from '../../../../../__mocks__';
 
 export interface CommentInputFormProps {
   topic: TopicInterface;
   user: UserInterface;
-  api: API;
+
   updateComments(comments: CommentInterface[] | undefined): void;
 }
 
@@ -28,11 +28,11 @@ const CommentInputForm: FunctionComponent<CommentInputFormProps> = (props): Reac
       const message = { ...DEFAULT_COMMENT, message: textInput };
       message.user = topic.public ? user.name : ANON_USER;
       message.topic = topic.id;
-      await props.api.addComment(message);
-      setComments(await props.api.getCommentsByTopic(topic.id));
+      await addComment(message);
+      setComments(await getCommentsByTopic(topic.id));
       setTextInput('');
     },
-    [textInput, setComments, topic, props.api, user.name],
+    [textInput, setComments, topic, user.name],
   );
 
   const updateTextInput = useCallback(

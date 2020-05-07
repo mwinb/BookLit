@@ -1,10 +1,12 @@
-import { NewTopicButtonProps, NewTopicModalProps, NewTopicModal } from './NewTopic';
-import { API, mockClubs } from '../../../../../__mocks__';
+import { NewTopicButtonProps, NewTopicModalProps, NewTopicModal } from './NewTopicModal';
+import { mockClubs } from '../../../../../__mocks__';
+import * as Api from '../../../../../__mocks__/mockAPI';
 import { mockTopics } from '../../../../../__mocks__/mockTopics';
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { act } from '@testing-library/react';
 import { DEFAULT_TOPIC, TopicInterface } from '../../../../../common/interfaces';
+import { ERRORS } from '../../../../../common/errors';
 
 let renderedComponent: ReactWrapper;
 let topicDescriptionInput: ReactWrapper;
@@ -19,7 +21,6 @@ let isShown: boolean;
 let newTopic: TopicInterface;
 
 const testNewTopicButtonProps: NewTopicButtonProps = {
-  api: API.getInstance(),
   clubId: mockClubs[0].id,
   updateTopic: (newTopicId: string) => (topicId = newTopicId),
 };
@@ -33,7 +34,7 @@ const testNewTopicModalProps: NewTopicModalProps = {
 describe('<NewTopicModal>', () => {
   newTopic = DEFAULT_TOPIC;
   beforeEach(() => {
-    addTopicSpy = jest.spyOn(API.prototype, 'addTopic').mockImplementation(async (topic: TopicInterface) => {
+    addTopicSpy = jest.spyOn(Api, 'addTopic').mockImplementation(async (topic: TopicInterface) => {
       newTopic = topic;
       return `${mockTopics.length + 1}`;
     });
@@ -42,6 +43,11 @@ describe('<NewTopicModal>', () => {
     topicNameInput = renderedComponent.find('#topicNameInput').first();
     topicPublicSwitch = renderedComponent.find('#topicPublicSwitch').first();
     submitButton = renderedComponent.find('#newTopicSubmit').first();
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+    renderedComponent.unmount();
   });
 
   it('Renders an input for a new topic name', () => {
@@ -92,7 +98,12 @@ describe('<NewTopicModal>', () => {
     it('updates the topics public status', () => {
       expect(newTopic.public).toBeTruthy();
     });
+    it(`shows ${ERRORS.FAILED_TO_CREATE} Alert if it fails to create new topic`, async () => {
+      addTopicSpy.mockResolvedValue(undefined);
+      await act(async () => {
+        submitButton.simulate('submit');
+      });
+      expect(renderedComponent.html()).toContain(ERRORS.FAILED_TO_CREATE);
+    });
   });
 });
-
-describe('<NewTopicButton>', () => {});

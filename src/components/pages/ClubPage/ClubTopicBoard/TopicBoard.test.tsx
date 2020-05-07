@@ -1,8 +1,8 @@
 import { ReactWrapper, mount } from 'enzyme';
 import React from 'react';
 import TopicBoard, { TopicBoardProps } from './TopicBoard';
-import { mockTopics } from '../../../../__mocks__/mockTopics';
-import { API, mockUsers } from '../../../../__mocks__';
+import { mockUsers, mockTopics } from '../../../../__mocks__';
+import * as Api from '../../../../__mocks__/mockAPI';
 import { act } from '@testing-library/react';
 import { TopicInterface, CommentInterface } from '../../../../common/interfaces';
 import { mockComments } from '../../../../__mocks__/mockComments';
@@ -13,7 +13,6 @@ let getCommentsByTopicSpy: jest.SpyInstance<Promise<CommentInterface[] | undefin
 
 const testProps: TopicBoardProps = {
   topicId: mockTopics[0].id,
-  api: API.getInstance(),
   user: mockUsers[0],
 };
 
@@ -21,8 +20,8 @@ let scrollIntoViewMock = jest.fn();
 window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
 
 beforeEach(async () => {
-  getTopicByIdSpy = jest.spyOn(API.prototype, 'getTopicById').mockResolvedValue(mockTopics[0]);
-  getCommentsByTopicSpy = jest.spyOn(API.prototype, 'getCommentsByTopic').mockResolvedValue([mockComments[0]]);
+  getTopicByIdSpy = jest.spyOn(Api, 'getTopicById').mockResolvedValue(mockTopics[0]);
+  getCommentsByTopicSpy = jest.spyOn(Api, 'getCommentsByTopic').mockResolvedValue([mockComments[0]]);
   jest.spyOn(React, 'useRef').mockReturnValue({ current: { scrollIntoView: scrollIntoViewMock } });
   await act(async () => {
     renderedComponent = mount(<TopicBoard {...testProps}></TopicBoard>);

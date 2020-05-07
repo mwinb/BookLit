@@ -3,21 +3,23 @@ import React, { ReactElement, useEffect, useState, useCallback } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Routes } from '../../../../common/Routes';
-import { API } from '../../../../__mocks__';
+import { getUserById } from '../../../../__mocks__';
 
-const MIN_CARD_WIDTH = 70;
-const MAX_CARD_WIDTH = 90;
-const WINDOW_SIZE_CUT_OFF = 800;
+export const MIN_CARD_WIDTH = 70;
+export const MAX_CARD_WIDTH = 90;
+export const WINDOW_SIZE_CUT_OFF = 800;
+export const getMaxCardWidth = (windowWidth: number) =>
+  windowWidth < WINDOW_SIZE_CUT_OFF ? MAX_CARD_WIDTH : MIN_CARD_WIDTH;
 export interface ClubCardProps {
   club: ClubInterface;
 }
 function ClubCard(props: ClubCardProps): ReactElement {
   const [clubCreator, setClubCreator] = useState<string>();
-  const [minCardWidth] = useState<number>(window.innerWidth < WINDOW_SIZE_CUT_OFF ? MAX_CARD_WIDTH : MIN_CARD_WIDTH);
+  const [minCardWidth] = useState<number>(getMaxCardWidth(window.innerWidth));
 
   const retrieveClubOwner = useCallback(
     async (clubOwnerId) => {
-      const clubOwner = await API.getInstance().getUserById(clubOwnerId);
+      const clubOwner = await getUserById(clubOwnerId);
       setClubCreator(clubOwner?.name);
     },
     [setClubCreator],

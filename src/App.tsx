@@ -2,7 +2,7 @@ import React, { useState, ReactElement, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { UserInterface } from './common/interfaces';
 import { Routes } from './common/Routes';
-import { API, mockUsers } from './__mocks__';
+import { mockUsers } from './__mocks__';
 import LandingPage from './components/pages/LandingPage/LandingPage';
 import MyClubsPage from './components/pages/MyClubs/MyClubsPage';
 import NewClubPage from './components/pages/NewClub/NewClub';
@@ -14,7 +14,6 @@ import PageWrapper from './components/PageWrapper/PageWrapper';
 
 function App(): ReactElement {
   const [user, setUser] = useState<UserInterface | undefined>(mockUsers[0]);
-  const [api] = useState<API>(API.getInstance());
 
   return (
     <PageWrapper>
@@ -26,7 +25,7 @@ function App(): ReactElement {
             {!user && <LandingPage></LandingPage>}
           </Route>
           <Route path={Routes.SIGN_IN}>
-            {!user && <SignInPage handleLogIn={setUser} api={api} />}
+            {!user && <SignInPage handleLogIn={setUser} />}
             {user && <Redirect to={Routes.MY_CLUBS} />}
           </Route>
           <Route path={Routes.SIGN_OUT}>
@@ -43,15 +42,15 @@ function App(): ReactElement {
             <h1>My Settings</h1>
           </Route>
           <Route path={Routes.MY_CLUBS}>
-            {user && <MyClubsPage user={user} api={api} />}
+            {user && <MyClubsPage user={user} />}
             {!user && <Redirect to={Routes.HOME}></Redirect>}
           </Route>
           <Route path={Routes.NEW_CLUB}>
-            {user && <NewClubPage setUser={setUser} user={user} api={api} />}
+            {user && <NewClubPage setUser={setUser} user={user} />}
             {!user && <Redirect to={Routes.HOME}></Redirect>}{' '}
           </Route>
           <Route path={Routes.CLUB}>
-            {user && <ClubPage api={api} user={user} />}
+            {user && <ClubPage user={user} />}
             {!user && <Redirect to={Routes.HOME} />}
           </Route>
         </Switch>

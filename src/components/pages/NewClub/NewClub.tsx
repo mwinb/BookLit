@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement, useState, useCallback } from 'react';
 import React from 'react';
 import { DEFAULT_CLUB, ClubInterface, UserInterface } from '../../../common/interfaces';
 import { Alert, Card, Form, Button } from 'react-bootstrap';
-import { API } from '../../../__mocks__';
+import { createClub, updateUser } from '../../../__mocks__';
 import { ERRORS } from '../../../common/errors';
 import { Routes } from '../../../common/Routes';
 import { Redirect } from 'react-router-dom';
@@ -10,7 +10,6 @@ import { Redirect } from 'react-router-dom';
 export interface NewClubPageProps {
   setUser(user: UserInterface): void;
   user: UserInterface;
-  api: API;
 }
 
 const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement => {
@@ -18,7 +17,7 @@ const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement =
   const [error, setError] = useState<string>();
   const [submitted, setSubmitted] = useState<boolean>(false);
 
-  const createClub = useCallback(
+  const addClub = useCallback(
     async (e: any) => {
       e.preventDefault();
       /*
@@ -26,7 +25,7 @@ const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement =
        * Validate that Name does not already exist. (Think about just adding the club owner name for uniqueness)
        * Then just need to check against the owners current clubs for now.
        */
-      const clubId = await props.api.createClub({
+      const clubId = await createClub({
         ...club,
         name: club.name.trimRight(),
         description: club.description.trimRight(),
@@ -37,7 +36,7 @@ const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement =
       });
       if (clubId) {
         const newUser = { ...props.user, clubs: [...props.user.clubs, clubId] };
-        await props.api.updateUser(newUser);
+        await updateUser(newUser);
         props.setUser({ ...newUser });
         setSubmitted(true);
       } else {
@@ -57,7 +56,7 @@ const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement =
         text="white"
         style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto', padding: '2%', marginTop: '5%' }}
       >
-        <Form onSubmit={createClub}>
+        <Form onSubmit={addClub}>
           <Form.Group>
             <Form.Label>Club Name</Form.Label>
             <Form.Control

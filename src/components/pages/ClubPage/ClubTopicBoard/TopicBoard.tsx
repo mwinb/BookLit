@@ -1,15 +1,14 @@
-import { FunctionComponent, ReactElement, useCallback, useEffect, useRef } from 'react';
+import React, { useState, FunctionComponent, ReactElement, useEffect, useRef } from 'react';
 import { Card } from 'react-bootstrap';
-import React, { useState } from 'react';
 import { TopicInterface, CommentInterface, UserInterface } from '../../../../common/interfaces';
-import { API } from '../../../../__mocks__';
 import Colors from '../../../../common/Styles/Colors';
 import './TopicBoard.css';
 import CommentInputForm from './SubmitCommentForm/CommentInput';
+import { getTopicById, getCommentsByTopic } from '../../../../__mocks__';
 
 export interface TopicBoardProps {
   topicId: string;
-  api: API;
+
   user: UserInterface;
 }
 
@@ -18,26 +17,10 @@ export const TopicBoard: FunctionComponent<TopicBoardProps> = (props): ReactElem
   const [comments, setComments] = useState<CommentInterface[]>();
   const ref = useRef<HTMLDivElement>(null);
 
-  const retrieveTopic = useCallback(
-    async (topicId) => {
-      const topic = await props.api.getTopicById(topicId);
-      setTopic(topic);
-    },
-    [setTopic, props.api],
-  );
-
-  const retrieveComments = useCallback(
-    async (topicId) => {
-      const comments = await props.api.getCommentsByTopic(topicId);
-      setComments(comments);
-    },
-    [setComments, props.api],
-  );
-
   useEffect(() => {
-    retrieveTopic(props.topicId);
-    retrieveComments(props.topicId);
-  }, [retrieveTopic, retrieveComments, props.topicId]);
+    getTopicById(props.topicId).then(setTopic);
+    getCommentsByTopic(props.topicId).then(setComments);
+  }, [props.topicId]);
 
   useEffect(() => {
     if (ref.current !== null) ref.current.scrollIntoView({ behavior: 'auto' });
@@ -61,7 +44,6 @@ export const TopicBoard: FunctionComponent<TopicBoardProps> = (props): ReactElem
       <Card.Text>{topic?.description}</Card.Text>
       <Card.Body style={{ height: '90%', width: '99%', overflowY: 'scroll', textAlign: 'left' }}>
         {comments?.map((comment, index) => {
-          const borderColor = index % 2 ? 'border-success' : 'border-primary';
           return (
             <div key={`${comment.id}:${index}`} className="row">
               <span className="pr-2" style={{ maxWidth: '20%' }}>
@@ -69,7 +51,7 @@ export const TopicBoard: FunctionComponent<TopicBoardProps> = (props): ReactElem
               </span>
               <div
                 style={{ width: '75%', textAlign: 'left', backgroundColor: Colors.SHADOW_BACKGROUND }}
-                className={`${borderColor} mb-3 p-2`}
+                className="mb-3 p-2"
               >
                 <span>{comment.message}</span>
                 <br></br>

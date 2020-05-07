@@ -1,7 +1,6 @@
-import { mockComments } from './mockComments';
-import { mockTopics } from './mockTopics';
+
 import { ClubInterface, UserInterface, TopicInterface, CommentInterface, DEFAULT_TOPIC } from "../common/interfaces";
-import { mockClubs, mockUsers, mockCredentials } from ".";
+import { mockClubs, mockUsers, mockTopics, mockComments, mockCredentials } from ".";
 
 export class MockDataBase {
     private static _instance: MockDataBase;
@@ -79,6 +78,7 @@ export class MockDataBase {
     }
 
     _findClub(id: string): ClubInterface | undefined {
+        console.log(this._mockClubs);
         return this._mockClubs.find(club =>
             club.id === id
         )
@@ -112,6 +112,11 @@ export class MockDataBase {
             this._updateClub(club);
         }
         return newTopic.id;
+    }
+
+    _deleteTopic(topicId: string): string {
+        this._mockTopics = this._mockTopics.filter(topic => topic.id !== topicId);
+        return "No Content"
     }
 
     _findTopics(clubId: string): TopicInterface[] {

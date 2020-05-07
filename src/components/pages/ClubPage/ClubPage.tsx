@@ -4,20 +4,18 @@ import { useLocation, Redirect } from 'react-router-dom';
 import { ClubInterface, UserInterface, DEFAULT_CLUB, DEFAULT_TOPIC } from '../../../common/interfaces';
 import { Routes } from '../../../common/Routes';
 import TopicSwitcher from './TopicsSwitcher/TopicSwitcher';
-import { API } from '../../../__mocks__';
 import TopicBoard from './ClubTopicBoard/TopicBoard';
-import NewTopicButton from './ClubTopicBoard/NewTopic/NewTopic';
+import NewTopicButton from './ClubTopicBoard/NewTopic/NewTopicButton';
+import DeleteTopicButton from './ClubTopicBoard/DeleteTopic/DeleteTopicButton';
 
 export interface ClubPageProps {
   user: UserInterface;
-  api: API;
 }
 
 const ClubPage: FunctionComponent<ClubPageProps> = (props) => {
   const [club, setClub] = useState<ClubInterface>(DEFAULT_CLUB);
   const [currentTopicId, setCurrentTopicId] = useState<string>(DEFAULT_TOPIC.id);
   const locationState = useLocation().state as any;
-  const api = props.api;
   const user = props.user;
 
   useEffect(() => {
@@ -55,11 +53,18 @@ const ClubPage: FunctionComponent<ClubPageProps> = (props) => {
             clubId={club.id}
             setCurrentTopic={setCurrentTopicId}
             currentTopicId={currentTopicId}
-            api={api}
           ></TopicSwitcher>
-          <NewTopicButton api={api} clubId={club.id} updateTopic={setCurrentTopicId}></NewTopicButton>
+          <NewTopicButton clubId={club.id} updateTopic={setCurrentTopicId}></NewTopicButton>
+          {currentTopicId !== club.generalChat && (
+            <DeleteTopicButton
+              club={club}
+              topicId={currentTopicId}
+              handleUpdateClub={setClub}
+              handleUpdateCurrentTopic={setCurrentTopicId}
+            />
+          )}
         </Navbar>
-        <TopicBoard api={api} user={user} topicId={currentTopicId}></TopicBoard>
+        <TopicBoard user={user} topicId={currentTopicId}></TopicBoard>
       </Card.Body>
     </Card>
   );

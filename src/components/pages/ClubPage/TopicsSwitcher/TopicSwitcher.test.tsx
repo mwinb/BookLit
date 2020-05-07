@@ -1,31 +1,37 @@
-import { ReactWrapper, mount, shallow } from 'enzyme';
+import { ReactWrapper, mount } from 'enzyme';
 import TopicSwitcher, { TopicSwitcherProps } from './TopicSwitcher';
-import { mockTopics } from '../../../../__mocks__/mockTopics';
-import { mockClubs, API } from '../../../../__mocks__';
+import { mockClubs, mockTopics } from '../../../../__mocks__';
+import * as Api from '../../../../__mocks__/mockAPI';
 import { TopicInterface } from '../../../../common/interfaces';
 import { act } from '@testing-library/react';
 import React from 'react';
+import { NavDropdown } from 'react-bootstrap';
 
 let renderedComponent: ReactWrapper;
 let testTopicId: string;
 let getTopicsByClubSpy: jest.SpyInstance<Promise<TopicInterface[] | undefined>>;
+let getTopicByIdSpy: jest.SpyInstance<any>;
 
 const testProps: TopicSwitcherProps = {
   currentTopicId: mockTopics[0].id,
   clubId: mockClubs[0].id,
   setCurrentTopic: (topicId: string) => (testTopicId = topicId),
-  api: API.getInstance(),
 };
 
 beforeEach(async () => {
-  jest.spyOn(API.prototype, 'getTopicById').mockResolvedValue(mockTopics[0]);
-  getTopicsByClubSpy = jest.spyOn(API.prototype, 'getTopicsByClub').mockResolvedValue([mockTopics[0]]);
+  getTopicByIdSpy = jest.spyOn(Api, 'getTopicById').mockResolvedValue(mockTopics[0]);
+  getTopicsByClubSpy = jest.spyOn(Api, 'getTopicsByClub').mockResolvedValue([mockTopics[0]]);
   await act(async () => {
     renderedComponent = mount(<TopicSwitcher {...testProps}></TopicSwitcher>);
   });
   await act(async () => {
     renderedComponent.find({ role: 'button' }).first().simulate('click');
   });
+});
+
+afterEach(() => {
+  jest.restoreAllMocks();
+  renderedComponent.unmount();
 });
 
 describe('Topic Switcher', () => {
@@ -38,6 +44,6 @@ describe('Topic Switcher', () => {
   });
 
   it('retrieves all topics from clubId', () => {
-    expect(getTopicsByClubSpy).toHaveBeenCalled();
+    expect(getTopicsByClubSpy).toHaveBeenCalledTimes(1);
   });
 });

@@ -2,21 +2,29 @@ import { ReactWrapper, mount } from 'enzyme';
 import React from 'react';
 import MyClubsPage from './MyClubsPage';
 import { UserInterface } from '../../../common/interfaces';
-import { API, mockUsers, mockClubs } from '../../../__mocks__';
+import { mockUsers, mockClubs } from '../../../__mocks__';
+import * as Api from '../../../__mocks__/mockAPI';
 import { act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import * as ClubCard from './ClubCard/ClubCard';
 
 let renderedComponent: ReactWrapper;
 let user: UserInterface;
-let api = API.getInstance();
 
 beforeEach(async () => {
   user = mockUsers[0];
-  jest.spyOn(API.prototype, 'getClubsByIds').mockResolvedValue([mockClubs[0]]);
+  jest.spyOn(Api, 'getClubsByIds').mockResolvedValue([mockClubs[0]]);
+  jest.spyOn(ClubCard, 'default').mockImplementation((props) => {
+    return (
+      <div>
+        {props.club.id}:{props.club.name}
+      </div>
+    );
+  });
   await act(async () => {
     renderedComponent = mount(
       <BrowserRouter>
-        <MyClubsPage user={user} api={api}></MyClubsPage>
+        <MyClubsPage user={user}></MyClubsPage>
       </BrowserRouter>,
     );
   });
@@ -28,6 +36,7 @@ afterEach(() => {
 
 describe('My Club Page', () => {
   it('Renders My Clubs', () => {
+    expect(renderedComponent.text()).toBeDefined();
     expect(renderedComponent.text()).toContain(mockClubs[0].name);
   });
 });
