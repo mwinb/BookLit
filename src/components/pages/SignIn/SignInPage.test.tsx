@@ -8,7 +8,7 @@ import * as Api from '../../../__mocks__/mockAPI';
 
 let testUser: UserInterface;
 
-function setUser(user: UserInterface): void {
+async function setUser(user: UserInterface): Promise<void> {
   testUser = user;
 }
 

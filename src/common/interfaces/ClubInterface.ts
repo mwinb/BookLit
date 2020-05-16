@@ -8,7 +8,6 @@ export interface ClubInterface {
     joinRequests: { user: string, message: string }[],
     generalChat: string,
     owner: string,
-    topics: string[],
     created: string,
     public: boolean,
 }
@@ -21,7 +20,6 @@ export const DEFAULT_CLUB: ClubInterface = {
     description: '',
     members: [],
     owner: '',
-    topics: [],
     created: '',
     public: false,
     generalChat: '',

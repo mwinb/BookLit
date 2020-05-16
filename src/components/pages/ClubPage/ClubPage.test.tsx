@@ -3,12 +3,15 @@ import * as Router from 'react-router-dom';
 import React from 'react';
 import ClubPage, { ClubPageProps } from './ClubPage';
 import { Routes } from '../../../common/Routes';
-import { mockClubs, mockUsers } from '../../../__mocks__';
+import { mockClubs, mockUsers, mockTopics } from '../../../__mocks__';
 import { act } from '@testing-library/react';
 import * as TopicBoard from './ClubTopicBoard/TopicBoard';
 import * as TopicSwitcher from './TopicsSwitcher/TopicSwitcher';
 import * as DeleteTopicButton from './ClubTopicBoard/DeleteTopic/DeleteTopicButton';
 import { Button } from 'react-bootstrap';
+import * as RedirectWrapper from '../../RedirectWrapper/RedirectWrapper';
+import { MockRedirectWrapper } from '../../../__mocks__/components/MockRedirectWrapper';
+
 let renderedComponent: ReactWrapper;
 
 const testProps: ClubPageProps = {
@@ -20,11 +23,12 @@ jest.mock('react-router-dom', () => ({
   useLocation: jest.fn(),
 }));
 
-beforeEach(async () => {
+beforeEach(() => {
   jest.spyOn(TopicBoard, 'default').mockReturnValue(<div>Topic Board</div>);
+  jest.spyOn(RedirectWrapper, 'default').mockImplementation(MockRedirectWrapper);
   jest.spyOn(TopicSwitcher, 'default').mockImplementation((props) => {
     return (
-      <Button id="switchTopic" onClick={() => props.setCurrentTopic(mockClubs[0].topics[1])}>
+      <Button id="switchTopic" onClick={() => props.setCurrentTopic(mockTopics[1].id)}>
         Topic Switcher
       </Button>
     );
@@ -36,10 +40,6 @@ beforeEach(async () => {
     search: '',
     hash: '',
   });
-
-  await act(async () => {
-    renderedComponent = mount(<ClubPage {...testProps} />);
-  });
 });
 
 afterEach(() => {
@@ -48,6 +48,11 @@ afterEach(() => {
 });
 
 describe('Club Page', () => {
+  beforeEach(async () => {
+    await act(async () => {
+      renderedComponent = mount(<ClubPage {...testProps} />);
+    });
+  });
   it('uses location to retrieve club from MyClubs page', () => {
     expect(renderedComponent.text()).toContain(mockClubs[0].name);
   });
@@ -61,5 +66,23 @@ describe('Club Page', () => {
       renderedComponent.find('#switchTopic').first().simulate('click');
     });
     expect(renderedComponent.text()).toContain('Delete Topic');
+  });
+});
+
+describe('Redirect', () => {
+  beforeEach(async () => {
+    jest.spyOn(Router, 'useLocation').mockReturnValue({
+      pathname: `${Routes.CLUB}/${mockClubs[0].name}`,
+      state: undefined,
+      search: '',
+      hash: '',
+    });
+    await act(async () => {
+      renderedComponent = mount(<ClubPage {...testProps} />);
+    });
+  });
+
+  it(`Redirects to ${Routes.HOME} if location state is undefined`, () => {
+    expect(renderedComponent.text()).toContain(Routes.HOME);
   });
 });

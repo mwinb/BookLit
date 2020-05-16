@@ -19,7 +19,7 @@ export class MockDataBase {
         return this._instance;
     }
     // Will be using google auth or keycloak this is just for demo
-    _login(email: string, password: string): string | undefined {
+    login(email: string, password: string): string | undefined {
         let id = undefined;
         for (const credential of this._mockCredentials) {
             if (credential.email === email && credential.password === password)
@@ -28,23 +28,23 @@ export class MockDataBase {
         return id;
     }
 
-    _findUser(id: string): UserInterface | undefined {
+    findUser(id: string): UserInterface | undefined {
         return this._mockUsers.find(user => {
             return user.id === id;
         });
     }
 
-    _findUsers(ids: string[]): UserInterface[] | undefined {
+    findUsers(ids: string[]): UserInterface[] | undefined {
         const users: UserInterface[] = []
         return ids.reduce((users, id) => {
-            const user = this._findUser(id);
+            const user = this.findUser(id);
             if (user !== undefined)
                 return [...users, user];
             else return users;
         }, users);
     }
 
-    _updateUser(user: UserInterface): string | undefined {
+    updateUser(user: UserInterface): string | undefined {
         let index = this._mockClubs.findIndex(e => e.id === user.id);
         if (index) {
             this._mockUsers[index] = { ...user };
@@ -52,7 +52,7 @@ export class MockDataBase {
         }
     }
 
-    _updateClub(club: ClubInterface): string | undefined {
+    updateClub(club: ClubInterface): string | undefined {
         let index = this._mockClubs.findIndex(e => e.id === club.id);
         if (index) {
             this._mockClubs[index] = { ...club };
@@ -60,34 +60,58 @@ export class MockDataBase {
         }
     }
 
-    _addClub(createdClub: ClubInterface): string | undefined {
-        const generalChatId = this._addTopic({ ...DEFAULT_TOPIC, name: 'General Chat', description: 'Club Chat', public: true });
+    addClub(createdClub: ClubInterface): string | undefined {
+        const owner = this.findUser(createdClub.owner);
+        if (!owner) return
+        const generalChatId = this.addTopic({ ...DEFAULT_TOPIC, name: 'General Chat', description: 'Club Chat', public: true });
         let generalChat: TopicInterface | undefined = undefined;
         if (generalChatId) {
-            generalChat = this._findTopic(generalChatId)
+            generalChat = this.findTopic(generalChatId)
             const newClub = {
-                ...createdClub, id: `${this._mockClubs.length + 1}`,
+                ...createdClub, id: `${new Date().getTime().toString(36)}`,
                 created: new Date().toJSON(),
                 generalChat: generalChatId,
-                topics: [generalChatId]
+                topics: [generalChatId],
+                members: [createdClub.owner]
             };
-            if (generalChat) this._updateTopic({ ...generalChat, club: newClub.id })
+            if (generalChat) this.updateTopic({ ...generalChat, club: newClub.id })
             this._mockClubs.push(newClub);
             return newClub.id;
         }
     }
 
-    _findClub(id: string): ClubInterface | undefined {
-        console.log(this._mockClubs);
+    deleteClub(clubId: string): string | undefined {
+        const club = this.findClub(clubId);
+        if (club) {
+            const clubTopics = this.findTopics(clubId);
+            clubTopics.forEach(topic => this.deleteTopic(topic.id));
+            club.members.forEach(user => this.removeClubFromUser(user, clubId));
+            this._mockClubs = this._mockClubs.filter(club => club.id !== clubId);
+            return clubId;
+        }
+    }
+
+    removeClubFromUser(userId: string, clubId: string) {
+        const user = this.findUser(userId);
+        if (user) {
+            const clubs = user.clubs.filter(club => club !== clubId);
+            this.updateUser({
+                ...user,
+                clubs: clubs,
+            })
+        }
+    }
+
+    findClub(id: string): ClubInterface | undefined {
         return this._mockClubs.find(club =>
             club.id === id
         )
     }
 
-    _findClubs(ids: string[]): ClubInterface[] | undefined {
+    findClubs(ids: string[]): ClubInterface[] | undefined {
         const clubs: ClubInterface[] = [];
         return ids.reduce((clubs, id) => {
-            const club = this._findClub(id);
+            const club = this.findClub(id);
             if (club)
                 return [...clubs, club]
             else
@@ -95,7 +119,7 @@ export class MockDataBase {
         }, clubs);
     }
 
-    _updateTopic(topic: TopicInterface): string | undefined {
+    updateTopic(topic: TopicInterface): string | undefined {
         const index = this._mockTopics.findIndex(e => e.id === topic.id);
         if (index) {
             this._mockTopics[index] = { ...topic };
@@ -103,51 +127,47 @@ export class MockDataBase {
         }
     }
 
-    _addTopic(createdTopic: TopicInterface): string | undefined {
-        let newTopic = { ...createdTopic, id: `${this._mockTopics.length + 1}`, created: new Date().toJSON() }
+    addTopic(createdTopic: TopicInterface): string | undefined {
+        let newTopic = { ...createdTopic, id: `${new Date().getTime().toString(36)}`, created: new Date().toJSON() }
         this._mockTopics.push(newTopic);
-        const club = this._findClub(newTopic.club);
-        if (club) {
-            club.topics.push(newTopic.id);
-            this._updateClub(club);
-        }
         return newTopic.id;
     }
 
-    _deleteTopic(topicId: string): string {
+    deleteTopic(topicId: string): string {
         this._mockTopics = this._mockTopics.filter(topic => topic.id !== topicId);
+        this._mockComments = this._mockComments.filter(comment => comment.topic !== topicId)
         return "No Content"
     }
 
-    _findTopics(clubId: string): TopicInterface[] {
+    findTopics(clubId: string): TopicInterface[] {
         return this._mockTopics.filter(topic =>
             topic.club === clubId
         );
     }
 
-    _findTopic(topicId: string): TopicInterface | undefined {
+    findTopic(topicId: string): TopicInterface | undefined {
         return this._mockTopics.find(topic =>
             topic.id === topicId
         )
     }
 
-    _addComment(comment: CommentInterface): string | undefined {
-        const newComment = { ...comment, id: `${this._mockComments.length + 1}`, created: new Date().toJSON() };
+    addComment(comment: CommentInterface): string | undefined {
+        const newComment = { ...comment, id: `${new Date().getTime().toString(36)}`, created: new Date().toJSON() };
         this._mockComments.push(newComment);
         return newComment.id;
     }
 
-    _findComments(topicId: string): CommentInterface[] {
+    findComments(topicId: string): CommentInterface[] {
         return this._mockComments.filter(comment =>
             comment.topic === topicId
         );
     }
 
-    _findComment(commentId: string): CommentInterface | undefined {
+    findComment(commentId: string): CommentInterface | undefined {
         return this._mockComments.find(comment => comment.id === commentId);
     }
 
-    _updateComment(comment: CommentInterface): string | undefined {
+    updateComment(comment: CommentInterface): string | undefined {
         const index = this._mockComments.findIndex(e => e.id === comment.id);
         if (index) {
             this._mockComments[index] = { ...comment };

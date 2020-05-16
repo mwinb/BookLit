@@ -5,7 +5,7 @@ import { Alert, Card, Form, Button } from 'react-bootstrap';
 import { createClub, updateUser } from '../../../__mocks__';
 import { ERRORS } from '../../../common/errors';
 import { Routes } from '../../../common/Routes';
-import { Redirect } from 'react-router-dom';
+import RedirectWrapper from '../../RedirectWrapper/RedirectWrapper';
 
 export interface NewClubPageProps {
   setUser(user: UserInterface): void;
@@ -47,7 +47,7 @@ const NewClubPage: FunctionComponent<NewClubPageProps> = (props): ReactElement =
   );
 
   return submitted ? (
-    <Redirect to={Routes.HOME} />
+    <RedirectWrapper to={Routes.HOME} />
   ) : (
     <>
       {error && <Alert variant="danger">{error}</Alert>}

@@ -17,7 +17,13 @@ export const NewTopicButton: FunctionComponent<NewTopicButtonProps> = (props): R
   };
   return (
     <>
-      <Button id="showNewTopicModal" variant="primary" onClick={setShowTrue} className="m-2">
+      <Button
+        id="showNewTopicModal"
+        variant="outline-success"
+        style={{ color: 'white' }}
+        onClick={setShowTrue}
+        className="ml-2"
+      >
         Create
       </Button>
       <NewTopicModal show={modalShow} onHide={setShowFalse} {...props} />

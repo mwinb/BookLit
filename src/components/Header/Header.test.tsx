@@ -3,11 +3,12 @@ import Header, { HeaderProps } from './Header';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { mockUsers } from '../../__mocks__';
+import { DEFAULT_USER } from '../../common/interfaces';
 
 let renderedComponent: ReactWrapper;
 
 const props: HeaderProps = {
-  user: undefined,
+  user: DEFAULT_USER,
 };
 
 afterEach(() => {

@@ -1,12 +1,13 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Card, Navbar } from 'react-bootstrap';
-import { useLocation, Redirect } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { ClubInterface, UserInterface, DEFAULT_CLUB, DEFAULT_TOPIC } from '../../../common/interfaces';
 import { Routes } from '../../../common/Routes';
 import TopicSwitcher from './TopicsSwitcher/TopicSwitcher';
 import TopicBoard from './ClubTopicBoard/TopicBoard';
 import NewTopicButton from './ClubTopicBoard/NewTopic/NewTopicButton';
 import DeleteTopicButton from './ClubTopicBoard/DeleteTopic/DeleteTopicButton';
+import RedirectWrapper from '../../RedirectWrapper/RedirectWrapper';
 
 export interface ClubPageProps {
   user: UserInterface;
@@ -26,7 +27,7 @@ const ClubPage: FunctionComponent<ClubPageProps> = (props) => {
   }, [locationState, setClub, setCurrentTopicId]);
 
   return !locationState ? (
-    <Redirect to={Routes.HOME} />
+    <RedirectWrapper to={Routes.HOME} />
   ) : (
     <Card
       bg="dark"
@@ -41,14 +42,11 @@ const ClubPage: FunctionComponent<ClubPageProps> = (props) => {
         textAlign: 'left',
       }}
     >
-      <Card.Header style={{ fontWeight: 'bold', width: '100%' }}>{club.name}</Card.Header>
+      <Card.Header style={{ fontWeight: 'bold', width: '100%', textAlign: 'center' }}>
+        <h4>{club.name}</h4>
+      </Card.Header>
       <Card.Body style={{ padding: 0 }}>
-        <Navbar
-          bg="dark"
-          variant="dark"
-          className="border-primary p-0"
-          style={{ border: 'solid', borderWidth: 1, width: '100%' }}
-        >
+        <Navbar bg="dark" variant="dark" className="p-0" style={{ width: '100%' }}>
           <TopicSwitcher
             clubId={club.id}
             setCurrentTopic={setCurrentTopicId}

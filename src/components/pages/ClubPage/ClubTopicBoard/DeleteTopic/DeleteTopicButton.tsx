@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactElement, useState, useCallback } from 'react';
 import { ClubInterface } from '../../../../../common/interfaces';
 import { Button, Alert } from 'react-bootstrap';
-import ConfirmationModal from './ConfirmationModal';
+import ConfirmationModal from '../../../../ConfirmationModal/ConfirmationModal';
 import { deleteTopic } from '../../../../../__mocks__';
 import { ERRORS } from '../../../../../common/errors';
 
@@ -24,7 +24,6 @@ export const DeleteTopicButton: FunctionComponent<DeleteTopicButtonProps> = (pro
 
   const handleDeleteTopic = useCallback(async () => {
     if (await deleteTopic(props.topicId)) {
-      props.handleUpdateClub({ ...props.club, topics: props.club.topics.filter((topic) => topic !== props.topicId) });
       props.handleUpdateCurrentTopic(props.club.generalChat);
       setModalShow(false);
     } else {
@@ -34,7 +33,7 @@ export const DeleteTopicButton: FunctionComponent<DeleteTopicButtonProps> = (pro
 
   return (
     <>
-      <Button variant="danger" id="showConfirmationModal" onClick={setShowTrue} className="m-2">
+      <Button variant="outline-danger" id="showConfirmationModal" onClick={setShowTrue} className="ml-2 text-light">
         Delete
       </Button>
       <ConfirmationModal

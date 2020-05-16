@@ -3,7 +3,7 @@ import React, { ReactElement, useState, useCallback } from 'react';
 import { Alert, Card, Form, Button } from 'react-bootstrap';
 import { login } from '../../../__mocks__';
 
-function SignInPage(props: { handleLogIn(user: UserInterface): void }): ReactElement {
+function SignInPage(props: { handleLogIn(user: UserInterface): Promise<void> }): ReactElement {
   const [email, setEmail] = useState<string>('');
   const [pass, setPass] = useState<string>('');
   const [error, setError] = useState<string>();
@@ -13,7 +13,7 @@ function SignInPage(props: { handleLogIn(user: UserInterface): void }): ReactEle
       e.preventDefault();
       const user = await login(email, pass);
       if (user) {
-        props.handleLogIn(user);
+        await props.handleLogIn(user);
       } else {
         setEmail('');
         setPass('');

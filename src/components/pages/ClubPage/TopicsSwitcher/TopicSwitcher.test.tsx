@@ -5,7 +5,6 @@ import * as Api from '../../../../__mocks__/mockAPI';
 import { TopicInterface } from '../../../../common/interfaces';
 import { act } from '@testing-library/react';
 import React from 'react';
-import { NavDropdown } from 'react-bootstrap';
 
 let renderedComponent: ReactWrapper;
 let testTopicId: string;

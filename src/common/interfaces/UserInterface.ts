@@ -1,7 +1,6 @@
 export interface UserInterface {
     id: string;
-    name: string;
-    email: string;
+    username: string;
     clubs: string[];
     lastLogin: string;
     created: string;
@@ -9,8 +8,7 @@ export interface UserInterface {
 
 export const DEFAULT_USER: UserInterface = {
     id: '',
-    name: '',
-    email: '',
+    username: '',
     clubs: [],
     lastLogin: '',
     created: ''

@@ -26,13 +26,13 @@ const CommentInputForm: FunctionComponent<CommentInputFormProps> = (props): Reac
     async (event: any) => {
       event.preventDefault();
       const message = { ...DEFAULT_COMMENT, message: textInput };
-      message.user = topic.public ? user.name : ANON_USER;
+      message.user = topic.public ? user.username : ANON_USER;
       message.topic = topic.id;
       await addComment(message);
       setComments(await getCommentsByTopic(topic.id));
       setTextInput('');
     },
-    [textInput, setComments, topic, user.name],
+    [textInput, setComments, topic, user.username],
   );
 
   const updateTextInput = useCallback(

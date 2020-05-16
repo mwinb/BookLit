@@ -30,7 +30,6 @@ export const TopicBoard: FunctionComponent<TopicBoardProps> = (props): ReactElem
     <Card
       bg="dark"
       text="white"
-      border="primary"
       style={{
         maxWidth: 'max-content',
         minWidth: '100%',
@@ -40,7 +39,9 @@ export const TopicBoard: FunctionComponent<TopicBoardProps> = (props): ReactElem
         textAlign: 'center',
       }}
     >
-      <Card.Header style={{ fontWeight: 'bold', width: '100%' }}>{topic?.name}</Card.Header>
+      <Card.Header style={{ fontWeight: 'bold', width: '100%' }}>
+        <h5>{topic?.name}</h5>
+      </Card.Header>
       <Card.Text>{topic?.description}</Card.Text>
       <Card.Body style={{ height: '90%', width: '99%', overflowY: 'scroll', textAlign: 'left' }}>
         {comments?.map((comment, index) => {

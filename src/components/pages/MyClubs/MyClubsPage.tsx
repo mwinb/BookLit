@@ -7,6 +7,7 @@ import { getClubsByIds } from '../../../__mocks__';
 export interface MyClubsPageProps {
   user: UserInterface;
 }
+
 function MyClubsPage(props: MyClubsPageProps): ReactElement {
   const [clubs, setClubs] = useState<ClubInterface[]>();
 
@@ -24,7 +25,7 @@ function MyClubsPage(props: MyClubsPageProps): ReactElement {
       <CardDeck>
         {clubs &&
           clubs.map((club, index) => {
-            return <ClubCard key={`ClubCard: ${club.id}:${index}`} club={club} />;
+            return <ClubCard key={`ClubCard: ${club.id}:${index}`} club={club} owned={club.owner === props.user.id} />;
           })}
       </CardDeck>
     </div>

@@ -39,7 +39,7 @@ const TopicSwitcher: FunctionComponent<TopicSwitcherProps> = (props) => {
 
   return (
     <Nav activeKey={props.currentTopicId}>
-      <NavDropdown title={'Topics'} id="topic-dropdown" className="m-2">
+      <NavDropdown title={'Topics'} id="topic-dropdown" className="ml-2 btn btn-outline-primary text-light">
         {allTopics &&
           allTopics.map((topic, index) => {
             return (
