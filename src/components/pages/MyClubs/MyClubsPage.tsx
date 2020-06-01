@@ -18,14 +18,20 @@ function MyClubsPage(props: MyClubsPageProps): ReactElement {
 
   useEffect(() => {
     getClubs(props.user.clubs);
-  }, [props.user.clubs, getClubs]);
+  }, [props.user, getClubs]);
 
   return (
     <div className="container overflow-scroll" style={{ width: '100%', height: '95%', overflowY: 'scroll' }}>
       <CardDeck>
         {clubs &&
           clubs.map((club, index) => {
-            return <ClubCard key={`ClubCard: ${club.id}:${index}`} club={club} owned={club.owner === props.user.id} />;
+            return (
+              <ClubCard
+                key={`ClubCard: ${club.id}:${index}${club.members.length}`}
+                club={club}
+                owned={club.owner === props.user.id}
+              />
+            );
           })}
       </CardDeck>
     </div>

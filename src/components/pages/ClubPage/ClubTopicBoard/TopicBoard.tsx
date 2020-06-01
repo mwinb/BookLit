@@ -23,7 +23,7 @@ export const TopicBoard: FunctionComponent<TopicBoardProps> = (props): ReactElem
   }, [props.topicId]);
 
   useEffect(() => {
-    if (ref.current !== null) ref.current.scrollIntoView({ behavior: 'auto' });
+    ref.current?.scrollIntoView({ behavior: 'auto' });
   }, [comments]);
 
   return (

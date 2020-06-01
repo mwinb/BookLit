@@ -1,22 +1,22 @@
-import { ReactWrapper, mount } from 'enzyme';
-import * as Router from 'react-router-dom';
-import React from 'react';
+import { MockRedirectWrapper } from '../../../__mocks__/components/MockRedirectWrapper';
+import * as DeleteTopicButton from './ClubTopicBoard/DeleteTopic/DeleteTopicButton';
+import * as RedirectWrapper from '../../RedirectWrapper/RedirectWrapper';
+import { mockClubs, mockUsers, mockTopics } from '../../../__mocks__';
+import * as TopicSwitcher from './TopicsSwitcher/TopicSwitcher';
+import * as TopicBoard from './ClubTopicBoard/TopicBoard';
 import ClubPage, { ClubPageProps } from './ClubPage';
 import { Routes } from '../../../common/Routes';
-import { mockClubs, mockUsers, mockTopics } from '../../../__mocks__';
+import { ReactWrapper, mount } from 'enzyme';
 import { act } from '@testing-library/react';
-import * as TopicBoard from './ClubTopicBoard/TopicBoard';
-import * as TopicSwitcher from './TopicsSwitcher/TopicSwitcher';
-import * as DeleteTopicButton from './ClubTopicBoard/DeleteTopic/DeleteTopicButton';
+import * as Router from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import * as RedirectWrapper from '../../RedirectWrapper/RedirectWrapper';
-import { MockRedirectWrapper } from '../../../__mocks__/components/MockRedirectWrapper';
+import React from 'react';
 
 let renderedComponent: ReactWrapper;
+const clubOwner = mockUsers[0];
+const clubUser = mockUsers[1];
 
-const testProps: ClubPageProps = {
-  user: mockUsers[0],
-};
+let testProps: ClubPageProps;
 
 jest.mock('react-router-dom', () => ({
   useParams: jest.fn(),
@@ -24,6 +24,9 @@ jest.mock('react-router-dom', () => ({
 }));
 
 beforeEach(() => {
+  testProps = {
+    user: clubOwner,
+  };
   jest.spyOn(TopicBoard, 'default').mockReturnValue(<div>Topic Board</div>);
   jest.spyOn(RedirectWrapper, 'default').mockImplementation(MockRedirectWrapper);
   jest.spyOn(TopicSwitcher, 'default').mockImplementation((props) => {
@@ -58,6 +61,17 @@ describe('Club Page', () => {
   });
 
   it('does not show delete button if current topic is the clubs general chat', () => {
+    expect(renderedComponent.text()).not.toContain('Delete Topic');
+  });
+
+  it('does not show delete topic if not the club owner', async () => {
+    testProps.user = clubUser;
+    await act(async () => {
+      renderedComponent = mount(<ClubPage {...testProps} />);
+    });
+    await act(async () => {
+      renderedComponent.find('#switchTopic').first().simulate('click');
+    });
     expect(renderedComponent.text()).not.toContain('Delete Topic');
   });
 

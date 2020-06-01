@@ -5,12 +5,12 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Routes } from '../../../../common/Routes';
 import { getUserById } from '../../../../__mocks__';
 import DeleteClubButton from '../DeleteClubButton/DeleteClubButton';
+import { getMaxWidth } from '../../../../common/utils/utils';
 
 export const MIN_CARD_WIDTH = 70;
 export const MAX_CARD_WIDTH = 90;
 export const WINDOW_SIZE_CUT_OFF = 800;
-export const getMaxCardWidth = (windowWidth: number) =>
-  windowWidth < WINDOW_SIZE_CUT_OFF ? MAX_CARD_WIDTH : MIN_CARD_WIDTH;
+
 export interface ClubCardProps {
   club: ClubInterface;
   owned: boolean;
@@ -18,7 +18,9 @@ export interface ClubCardProps {
 
 const ClubCard: FunctionComponent<ClubCardProps> = (props): ReactElement => {
   const [clubCreator, setClubCreator] = useState<string>();
-  const [minCardWidth] = useState<number>(getMaxCardWidth(window.innerWidth));
+  const [minCardWidth] = useState<number>(
+    getMaxWidth(window.innerWidth, MAX_CARD_WIDTH, MIN_CARD_WIDTH, WINDOW_SIZE_CUT_OFF),
+  );
 
   const retrieveClubOwner = useCallback(
     async (clubOwnerId) => {
@@ -69,13 +71,22 @@ const ClubCard: FunctionComponent<ClubCardProps> = (props): ReactElement => {
           Created: {new Date(props.club.created).toDateString()}
         </small>
       </Card.Body>
-      <Card.Footer>
+      <Card.Footer className="d-flex justify-content-between">
         <LinkContainer to={{ pathname: Routes.CLUB, state: { club: props.club } }}>
           <Button variant="outline-primary" className="text-light">
             Open
           </Button>
         </LinkContainer>
-        {props.owned && <DeleteClubButton clubId={props.club.id} />}
+        {props.owned && (
+          <div className="d-flex justify-content-end">
+            <LinkContainer to={{ pathname: Routes.MANAGE_CLUB, state: { club: props.club } }}>
+              <Button variant="outline-info" className="text-light manageClubButton">
+                Manage
+              </Button>
+            </LinkContainer>
+            <DeleteClubButton clubId={props.club.id} />
+          </div>
+        )}
       </Card.Footer>
     </Card>
   );

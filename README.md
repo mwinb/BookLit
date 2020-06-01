@@ -11,16 +11,25 @@
   - [ ] View/Change User name. 
   - [ ] View/update Email
 - [x] Create My Clubs Page
-  - [ ] Allow for editing of owned clubs
-    - [ ] Delete Club
-    - [ ] Remove Users/Consider Request approval
-      - [ ] Requires updating passphrase?. 
-    - [ ] Approve Requests or update passphrase. 
-    - [ ] (consider modal, otherwise use current create club (consider moving create club into modal))
+  - [x] Delete Club
+  - [x] Enter Club
+  - [x] Displays club Information
+- [ ] Manage Club Page
+  - [x] Create Manage Club page
+    - [x] Sticky Nav Bar for options.
+    - [x] Use Dropdown to select. 
+  - [ ] View Requests (for club). 
+    - [x] Create Mock Requests
+    - [x] Create Mock api request to get by club id
+    - [x] Create mock database logic to get requests by club id
+    - [x] Create Request Card
+      - [ ] Create ApproveButton. 
+      - [ ] Create RejectButton. 
+  - [ ] Approve Requests.
+  - [ ] Remove Users/Consider Request approval
+  - [ ] Approve Requests or update passphrase. 
 - [x] New Club Page
   - [x] Creating New Club adds General Topic (handled in mock database as this will be done in back end)
-  - [ ] Passphrase for joining club
-    - [ ] Create Passphrase Field
 - [ ] Club Page
   - [x] Create Logic for Comments and Topics
   - [ ] Topics

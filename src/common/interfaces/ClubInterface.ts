@@ -5,11 +5,11 @@ export interface ClubInterface {
     book: string,
     description: string,
     members: string[],
-    joinRequests: { user: string, message: string }[],
     generalChat: string,
     owner: string,
     created: string,
     public: boolean,
+    requests: string[],
 }
 
 
@@ -23,5 +23,5 @@ export const DEFAULT_CLUB: ClubInterface = {
     created: '',
     public: false,
     generalChat: '',
-    joinRequests: [],
+    requests: [],
 }

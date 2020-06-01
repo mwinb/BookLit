@@ -1,0 +1,21 @@
+.dropdown-menu {
+    max-height: 25vh;
+    overflow-y: scroll;
+    background-color: #212529 !important;
+    margin-right: 10%;
+    color: white;
+    width: 100%;
+}
+
+.dropdown-menu .dropdown-item {
+    color: white;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    color: black;
+}
+
+#manageClub-dropdown {
+    padding: 0;
+    margin-left: 0;
+}

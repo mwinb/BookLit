@@ -1,6 +1,6 @@
 import { TopicInterface } from './../common/interfaces/TopicInterface';
 import { MockDataBase } from "./mockDatabase";
-import { UserInterface, ClubInterface, CommentInterface } from "../common/interfaces";
+import { UserInterface, ClubInterface, CommentInterface, RequestInterface } from "../common/interfaces";
 
 
 export async function login(email: string, password: string): Promise<UserInterface | undefined> {
@@ -68,4 +68,16 @@ export async function addComment(comment: CommentInterface): Promise<string | un
 
 export async function updateComment(comment: CommentInterface): Promise<string | undefined> {
     return MockDataBase.getInstance().updateComment(comment);
+}
+
+export async function getRequestsByClubId(clubId: string): Promise<RequestInterface[] | []> {
+    return MockDataBase.getInstance().findRequestsByClubId(clubId);
+}
+
+export async function approveRequest(requestId: string): Promise<string | undefined> {
+    return MockDataBase.getInstance().approveRequest(requestId);
+}
+
+export async function rejectRequest(requestId: string): Promise<string | undefined> {
+    return MockDataBase.getInstance().rejectRequest(requestId);
 }

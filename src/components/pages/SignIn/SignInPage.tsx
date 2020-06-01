@@ -24,7 +24,7 @@ function SignInPage(props: { handleLogIn(user: UserInterface): Promise<void> }):
   );
 
   return (
-    <div>
+    <div style={{ marginTop: '10%' }}>
       {error && <Alert variant="danger">{error}</Alert>}
       <Card bg="dark" text="white" style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto', padding: '2%' }}>
         <Form onSubmit={executeLogin}>

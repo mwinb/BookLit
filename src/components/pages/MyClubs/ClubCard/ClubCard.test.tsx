@@ -73,16 +73,9 @@ describe('ownedClub', () => {
     const deleteClubButton = renderedComponent.find(DeleteClubButton).first();
     expect(deleteClubButton.text()).toBe('Delete');
   });
-});
 
-describe('getMaxCardWidth', () => {
-  it(`returns ${MAX_CARD_WIDTH} if windowWidth is less than ${WINDOW_SIZE_CUT_OFF}`, () => {
-    const maxCardWidth = getMaxCardWidth(WINDOW_SIZE_CUT_OFF - 1);
-    expect(maxCardWidth).toBe(MAX_CARD_WIDTH);
-  });
-
-  it(`return ${MIN_CARD_WIDTH} if windowWidth is greater than or equal to ${WINDOW_SIZE_CUT_OFF}`, () => {
-    const maxCardWidth = getMaxCardWidth(WINDOW_SIZE_CUT_OFF);
-    expect(maxCardWidth).toBe(MIN_CARD_WIDTH);
+  it('renders button to manage clubs', () => {
+    const manageClubButton = renderedComponent.find('.manageClubButton').first();
+    expect(manageClubButton.text()).toBe('Manage');
   });
 });

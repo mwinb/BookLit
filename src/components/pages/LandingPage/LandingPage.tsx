@@ -9,11 +9,11 @@ import ImageCredit from '../../ImageCredit';
 function LandingPage(): ReactElement {
   return (
     <>
-      <h1>Welcome To Book Nook!</h1>
+      <h1 style={{ marginTop: '15%' }}>Welcome To Book Nook!</h1>
       <p className="aboutText" style={{ marginTop: 0, marginBottom: 0 }}>
         Connect with friends or other readers around the world instantly.
       </p>
-      <p className="aboutText">Read, discuss, and socialize with friends or strangers in small groups.</p>
+      <p className="aboutText">Read, discuss, and socialize with friends.</p>
       <LinkContainer to={Routes.SIGN_UP}>
         <Button>Sign Up</Button>
       </LinkContainer>

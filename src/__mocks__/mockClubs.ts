@@ -10,7 +10,7 @@ export const mockClubs: ClubInterface[] = [
     description: 'This is a description',
     public: true,
     generalChat: '1',
-    joinRequests: []
+    requests: []
   },
   {
     id: '2',
@@ -22,7 +22,7 @@ export const mockClubs: ClubInterface[] = [
     description: 'This is a description',
     public: true,
     generalChat: '2',
-    joinRequests: []
+    requests: []
 
   },
   {
@@ -35,6 +35,6 @@ export const mockClubs: ClubInterface[] = [
     description: 'This is a description',
     public: true,
     generalChat: '3',
-    joinRequests: []
+    requests: []
   },
 ];

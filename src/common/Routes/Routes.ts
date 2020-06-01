@@ -7,4 +7,5 @@ export const Routes = {
     NEW_CLUB: '/newClub',
     MY_SETTINGS: '/mySettings',
     CLUB: '/club',
+    MANAGE_CLUB: '/ManageClub',
 }

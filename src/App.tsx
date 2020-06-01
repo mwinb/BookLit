@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect, useState, useCallback } from 'react';
 import RedirectWrapper from './components/RedirectWrapper/RedirectWrapper';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import ManageClubPage from './components/pages/ManageClub/ManageClubPage';
 import LandingPage from './components/pages/LandingPage/LandingPage';
 import { DEFAULT_USER, UserInterface } from './common/interfaces';
 import MyClubsPage from './components/pages/MyClubs/MyClubsPage';
@@ -75,6 +76,9 @@ function App(): ReactElement {
           </Route>
           <Route path={Routes.CLUB}>
             {!signedIn ? <RedirectWrapper to={Routes.HOME} /> : <ClubPage user={user} />}
+          </Route>
+          <Route path={Routes.MANAGE_CLUB}>
+            <ManageClubPage user={user} />
           </Route>
         </Switch>
       </Router>

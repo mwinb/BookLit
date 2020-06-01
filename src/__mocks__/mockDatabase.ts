@@ -1,14 +1,17 @@
-
-import { ClubInterface, UserInterface, TopicInterface, CommentInterface, DEFAULT_TOPIC } from "../common/interfaces";
-import { mockClubs, mockUsers, mockTopics, mockComments, mockCredentials } from ".";
+import { ClubInterface, UserInterface, TopicInterface, CommentInterface, DEFAULT_TOPIC, RequestInterface } from "../common/interfaces";
+import { mockClubs, mockUsers, mockTopics, mockComments, mockCredentials, mockRequests } from ".";
+import { } from "../common/interfaces/RequestInterface";
 
 export class MockDataBase {
+
     private static _instance: MockDataBase;
     _mockClubs: ClubInterface[] = mockClubs;
     _mockUsers: UserInterface[] = mockUsers;
     _mockTopics: TopicInterface[] = mockTopics;
     _mockComments: CommentInterface[] = mockComments;
+    _mockRequests: RequestInterface[] = mockRequests;
     _mockCredentials = mockCredentials;
+
     private constructor() {
     }
 
@@ -46,15 +49,31 @@ export class MockDataBase {
 
     updateUser(user: UserInterface): string | undefined {
         let index = this._mockClubs.findIndex(e => e.id === user.id);
-        if (index) {
+        if (index !== undefined) {
             this._mockUsers[index] = { ...user };
             return user.id;
         }
     }
 
+    addClubToUser(userId: string, clubId: string): void {
+        const user = this.findUser(userId);
+        if (user) this.updateUser({ ...user, clubs: [...user.clubs, clubId] });
+    }
+
+    removeClubFromUser(userId: string, clubId: string) {
+        const user = this.findUser(userId);
+        if (user) {
+            const clubs = user.clubs.filter(club => club !== clubId);
+            this.updateUser({
+                ...user,
+                clubs: clubs,
+            })
+        }
+    }
+
     updateClub(club: ClubInterface): string | undefined {
         let index = this._mockClubs.findIndex(e => e.id === club.id);
-        if (index) {
+        if (index !== undefined) {
             this._mockClubs[index] = { ...club };
             return club.id;
         }
@@ -80,6 +99,11 @@ export class MockDataBase {
         }
     }
 
+    addUserToClub(clubId: string, userId: string): void {
+        const club = this.findClub(clubId);
+        if (club) this.updateClub({ ...club, members: [...club.members, userId] });
+    }
+
     deleteClub(clubId: string): string | undefined {
         const club = this.findClub(clubId);
         if (club) {
@@ -91,16 +115,16 @@ export class MockDataBase {
         }
     }
 
-    removeClubFromUser(userId: string, clubId: string) {
-        const user = this.findUser(userId);
-        if (user) {
-            const clubs = user.clubs.filter(club => club !== clubId);
-            this.updateUser({
-                ...user,
-                clubs: clubs,
+    removeRequestFromClub(clubId: string, requestId: string): void {
+        const club = this.findClub(clubId);
+        if (club) {
+            this.updateClub({
+                ...club,
+                requests: club.requests.filter(request => request !== requestId)
             })
         }
     }
+
 
     findClub(id: string): ClubInterface | undefined {
         return this._mockClubs.find(club =>
@@ -121,7 +145,7 @@ export class MockDataBase {
 
     updateTopic(topic: TopicInterface): string | undefined {
         const index = this._mockTopics.findIndex(e => e.id === topic.id);
-        if (index) {
+        if (index !== undefined) {
             this._mockTopics[index] = { ...topic };
             return topic.id;
         }
@@ -169,9 +193,40 @@ export class MockDataBase {
 
     updateComment(comment: CommentInterface): string | undefined {
         const index = this._mockComments.findIndex(e => e.id === comment.id);
-        if (index) {
+        if (index !== undefined) {
             this._mockComments[index] = { ...comment };
             return comment.id;
+        }
+    }
+
+    findRequestsByClubId(clubId: string): RequestInterface[] | [] {
+        return this._mockRequests.filter(request => request.clubId === clubId);
+    }
+
+    getRequestById(id: string): RequestInterface | undefined {
+        return this._mockRequests.find(request => request.id === id);
+    }
+
+    deleteRequest(requestId: string): void {
+        this._mockRequests = this._mockRequests.filter(request => request.id !== requestId);
+    }
+
+    approveRequest(requestId: string): string | undefined {
+        const request = this.getRequestById(requestId);
+        if (request) {
+            this.addUserToClub(request.clubId, request.userId);
+            this.addClubToUser(request.userId, request.clubId);
+            this.deleteRequest(requestId);
+            return requestId;
+        }
+    }
+
+    rejectRequest(requestId: string): string | undefined {
+        const request = this.getRequestById(requestId);
+        if (request) {
+            this.removeRequestFromClub(request.clubId, requestId);
+            this.deleteRequest(requestId);
+            return requestId;
         }
     }
 
