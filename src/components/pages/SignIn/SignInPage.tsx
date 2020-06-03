@@ -1,7 +1,7 @@
 import { UserInterface } from '../../../common/interfaces';
 import React, { ReactElement, useState, useCallback } from 'react';
 import { Alert, Card, Form, Button } from 'react-bootstrap';
-import { login } from '../../../__mocks__';
+import { login } from '../../../common/API';
 
 function SignInPage(props: { handleLogIn(user: UserInterface): Promise<void> }): ReactElement {
   const [email, setEmail] = useState<string>('');

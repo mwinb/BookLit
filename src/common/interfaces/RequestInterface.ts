@@ -1,18 +1,17 @@
 export interface RequestInterface {
-    id: string,
-    clubId: string,
-    userId: string,
-    userName: string,
-    message: string,
-    requestDate: string,
+  id: string;
+  clubId: string;
+  userId: string;
+  username: string;
+  message: string;
+  requestDate: string;
 }
-
 
 export const DEFAULT_REQUEST_INTERFACE: RequestInterface = {
-    id: '',
-    clubId: '',
-    userId: '',
-    userName: '',
-    message: '',
-    requestDate: '',
-}
+  id: '',
+  clubId: '',
+  userId: '',
+  username: '',
+  message: '',
+  requestDate: '',
+};

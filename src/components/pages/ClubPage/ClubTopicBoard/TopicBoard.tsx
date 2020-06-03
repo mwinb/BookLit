@@ -4,7 +4,7 @@ import { TopicInterface, CommentInterface, UserInterface } from '../../../../com
 import Colors from '../../../../common/Styles/Colors';
 import './TopicBoard.css';
 import CommentInputForm from './SubmitCommentForm/CommentInput';
-import { getTopicById, getCommentsByTopic } from '../../../../__mocks__';
+import { getTopicById, getCommentsByTopic } from '../../../../common/API';
 
 export interface TopicBoardProps {
   topicId: string;

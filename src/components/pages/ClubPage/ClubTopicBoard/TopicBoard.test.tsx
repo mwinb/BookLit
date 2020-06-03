@@ -2,7 +2,7 @@ import { ReactWrapper, mount } from 'enzyme';
 import React from 'react';
 import TopicBoard, { TopicBoardProps } from './TopicBoard';
 import { mockUsers, mockTopics } from '../../../../__mocks__';
-import * as Api from '../../../../__mocks__/mockAPI';
+import * as Api from '../../../../common/API/APICalls';
 import { act } from '@testing-library/react';
 import { TopicInterface, CommentInterface } from '../../../../common/interfaces';
 import { mockComments } from '../../../../__mocks__/mockComments';

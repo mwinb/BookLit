@@ -3,7 +3,7 @@ import RequestCard, { RequestCardProps } from './RequestCard';
 import React from 'react';
 import { mockRequests } from '../../../../../__mocks__';
 import { act } from 'react-dom/test-utils';
-import * as API from '../../../../../__mocks__/mockAPI';
+import * as API from '../../../../../common/API/APICalls';
 import { RequestInterface } from '../../../../../common/interfaces';
 import { ERRORS } from '../../../../../common/errors';
 
@@ -43,7 +43,7 @@ describe('<RequestCard />', () => {
   });
 
   it('renders the requests userName', () => {
-    expect(renderedComponent.text()).toContain(mockRequests[0].userName);
+    expect(renderedComponent.text()).toContain(mockRequests[0].username);
   });
 
   it('contains an approve button', () => {

@@ -1,7 +1,7 @@
 import { ReactWrapper, mount } from 'enzyme';
 import React from 'react';
-import RequestManagement, { REQUEST_MANAGEMENT_TITLE, RequestManagementProps } from './RequestManagement';
-import * as API from '../../../../__mocks__/mockAPI';
+import RequestManagement, { RequestManagementProps } from './RequestManagement';
+import * as API from '../../../../common/API/APICalls';
 import { mockRequests, mockClubs } from '../../../../__mocks__';
 import { act } from 'react-dom/test-utils';
 import * as RequestCard from './RequestCard/RequestCard';
@@ -18,7 +18,7 @@ beforeEach(async () => {
   jest.spyOn(RequestCard, 'default').mockImplementation((props) => {
     return (
       <div id="requestCard">
-        <p>{props.request.userName}</p>
+        <p>{props.request.username}</p>
         <p>{props.request.message}</p>
         <Button className="mockApproveButton" onClick={props.handleUpdatingRequests}>
           Approve
@@ -46,7 +46,7 @@ describe('<RequestManagement />', () => {
   });
 
   it('maps a list of requests showing the username and message', () => {
-    expect(renderedComponent.text()).toContain(mockRequests[0].userName);
+    expect(renderedComponent.text()).toContain(mockRequests[0].username);
     expect(renderedComponent.text()).toContain(mockRequests[0].message);
   });
 

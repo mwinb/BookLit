@@ -3,7 +3,7 @@ import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import React from 'react';
 import { DEFAULT_TOPIC } from '../../../../../common/interfaces';
 import { ERRORS } from '../../../../../common/errors';
-import { addTopic } from '../../../../../__mocks__';
+import { addTopic } from '../../../../../common/API';
 import { NewTopicButtonProps } from './NewTopicButton';
 
 export interface NewTopicModalProps extends NewTopicButtonProps {

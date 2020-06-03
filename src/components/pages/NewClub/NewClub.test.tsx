@@ -2,7 +2,7 @@ import { ReactWrapper, mount } from 'enzyme';
 import { UserInterface, DEFAULT_USER } from '../../../common/interfaces';
 import NewClubPage, { NewClubPageProps } from './NewClub';
 import { mockUsers, mockClubs } from '../../../__mocks__';
-import * as Api from '../../../__mocks__/mockAPI';
+import * as Api from '../../../common/API/APICalls';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { BrowserRouter } from 'react-router-dom';

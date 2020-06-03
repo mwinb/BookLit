@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactElement, useState, useCallback } from 'react';
 import ConfirmationModal from '../../../ConfirmationModal/ConfirmationModal';
-import { deleteClub } from '../../../../__mocks__';
+import { deleteClub } from '../../../../common/API';
 import { ERRORS } from '../../../../common/errors';
 import { Button, Alert } from 'react-bootstrap';
 import { useUser } from '../../../../common/context/UserContext';

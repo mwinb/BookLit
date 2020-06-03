@@ -1,5 +1,5 @@
 import React from 'react';
-import ManageClubPage, { clubSettings, ManageClubPageProps } from './ManageClubPage';
+import ManageClubPage, { ManageClubPageProps } from './ManageClubPage';
 import { ReactWrapper, mount } from 'enzyme';
 import * as ClubSettingSwitcher from './ClubSettingsSwitcher/ClubSettingsSwitcher';
 import { MockClubSettingsSwitcher } from '../../../__mocks__/components/MockClubSettingsSwitcher';
@@ -10,6 +10,8 @@ import * as Router from 'react-router-dom';
 import { Routes } from '../../../common/Routes';
 import * as RedirectWrapper from '../../RedirectWrapper/RedirectWrapper';
 import { MockRedirectWrapper } from '../../../__mocks__/components/MockRedirectWrapper';
+import { clubSettings } from './ClubSettings';
+import * as MemberManagement from './MemberManagement/MemberManagement';
 
 let renderedComponent: ReactWrapper;
 
@@ -25,6 +27,7 @@ const testProps: ManageClubPageProps = {
 beforeEach(() => {
   jest.spyOn(ClubSettingSwitcher, 'default').mockImplementation(MockClubSettingsSwitcher);
   jest.spyOn(ManageRequests, 'default').mockReturnValue(<div>{ManageRequests.REQUEST_MANAGEMENT_TITLE}</div>);
+  jest.spyOn(MemberManagement, 'default').mockReturnValue(<div>{clubSettings.members}</div>);
   jest.spyOn(RedirectWrapper, 'default').mockImplementation(MockRedirectWrapper);
   jest.spyOn(Router, 'useLocation').mockReturnValue({
     pathname: `${Routes.MANAGE_CLUB}/${mockClubs[0].name}`,
@@ -59,6 +62,13 @@ describe('<ManageClubPage />', () => {
       renderedComponent.find('#RequestsButton').first().simulate('click');
     });
     expect(renderedComponent.text()).toContain(ManageRequests.REQUEST_MANAGEMENT_TITLE);
+  });
+
+  it('should contain Manage Users page when Members is selected', async () => {
+    await act(async () => {
+      renderedComponent.find('#MembersButton').first().simulate('click');
+      expect(renderedComponent.text()).toContain(clubSettings.members);
+    });
   });
 });
 

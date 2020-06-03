@@ -1,8 +1,8 @@
-import { TopicInterface } from '../common/interfaces/TopicInterface';
-import { MockDataBase } from './mockDatabase';
-import { UserInterface, ClubInterface, CommentInterface, RequestInterface } from '../common/interfaces';
-import { ERRORS } from '../common/errors';
-import { SUCCESS_REQUEST } from '../common/API';
+import { TopicInterface } from '../interfaces/TopicInterface';
+import { MockDataBase } from '../../__mocks__/mockDatabase';
+import { UserInterface, ClubInterface, CommentInterface, RequestInterface } from '../interfaces';
+import { ERRORS } from '../errors';
+import { SUCCESS_REQUEST } from '.';
 
 export async function login(email: string, password: string): Promise<UserInterface | undefined> {
   const id = MockDataBase.getInstance().login(email, password);

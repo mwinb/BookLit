@@ -6,7 +6,7 @@ import { MockConfirmationModal } from '../../../../__mocks__/components/MockConf
 import * as RedirectWrapper from '../../../RedirectWrapper/RedirectWrapper';
 import { MockRedirectWrapper } from '../../../../__mocks__/components/MockRedirectWrapper';
 import { mockClubs, mockUsers } from '../../../../__mocks__';
-import * as API from '../../../../__mocks__/mockAPI';
+import * as API from '../../../../common/API/APICalls';
 import { act } from 'react-dom/test-utils';
 import { ERRORS } from '../../../../common/errors';
 import { DEFAULT_USER_CONTEXT } from '../../../../common/context/UserContext';
@@ -20,13 +20,15 @@ const testProps: DeleteClubButtonProps = {
   clubId: mockClubs[0].id,
 };
 
-beforeEach(() => {
+beforeEach(async () => {
   mockUserContext.user = mockUsers[0];
   jest.spyOn(RedirectWrapper, 'default').mockImplementation(MockRedirectWrapper);
-  deleteClubSpy = jest.spyOn(API, 'deleteClub').mockResolvedValue(mockClubs[0].id);
   jest.spyOn(ConfirmationModal, 'default').mockImplementation(MockConfirmationModal);
   spyUseUser(mockUserContext);
-  renderedComponent = mount(<DeleteClubButton {...testProps} />);
+  deleteClubSpy = jest.spyOn(API, 'deleteClub').mockResolvedValue(mockClubs[0].id);
+  await act(async () => {
+    renderedComponent = mount(<DeleteClubButton {...testProps} />);
+  });
 });
 
 afterEach(() => {
@@ -39,35 +41,42 @@ describe('<DeleteClubButton>', () => {
     expect(renderedComponent.text()).toContain('Delete');
   });
 
-  it('requests confirmation on click', () => {
-    renderedComponent.find('#deleteClubButton').first().simulate('click');
+  it('requests confirmation on click', async () => {
+    await act(async () => {
+      renderedComponent.find('#deleteClubButton').first().simulate('click');
+    });
+    renderedComponent.update();
     expect(renderedComponent.text()).toContain('Confirmation Modal');
   });
 });
 
 describe('ConfirmationModal is Showing', () => {
-  beforeEach(() => {
-    renderedComponent.find('#deleteClubButton').first().simulate('click');
-  });
-
-  it('makes deleteClub api call when confirm is clicked', () => {
-    renderedComponent.find('#confirmModalButton').first().simulate('click');
-    expect(deleteClubSpy).toHaveBeenCalled();
-  });
-
-  it('closes the confirmation modal if no error', async () => {
+  beforeEach(async () => {
     await act(async () => {
-      renderedComponent.find('#confirmModalButton').first().simulate('click');
+      renderedComponent.find('#deleteClubButton').first().simulate('click');
     });
     renderedComponent.update();
-    expect(renderedComponent.text()).not.toContain('Confirmation Modal');
   });
 
-  it('removes the club from the users clubs', async () => {
-    await act(async () => {
-      renderedComponent.find('#confirmModalButton').first().simulate('click');
+  describe('Confirm Deletion', () => {
+    beforeEach(async () => {
+      await act(async () => {
+        renderedComponent.find('#confirmModalButton').first().simulate('click');
+      });
+      renderedComponent.update();
     });
-    expect(mockUserContext.user.clubs.find((club) => club === mockClubs[0].id)).not.toBeDefined();
+
+    it('makes deleteClub api call when confirm is clicked', async () => {
+      expect(deleteClubSpy).toHaveBeenCalled();
+    });
+
+    it('closes the confirmation modal if no error', async () => {
+      expect(renderedComponent.text()).not.toContain('Confirmation Modal');
+    });
+
+    it('removes the club from the users clubs', async () => {
+      expect(mockUserContext.user.clubs.find((club) => club === mockClubs[0].id)).not.toBeDefined();
+    });
   });
 
   it(`displays ${ERRORS.UNKNOWN} inside modal if it fails to delete`, async () => {

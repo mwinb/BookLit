@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactElement, useState, useCallback } from 'r
 import { ClubInterface } from '../../../../../common/interfaces';
 import { Button, Alert } from 'react-bootstrap';
 import ConfirmationModal from '../../../../ConfirmationModal/ConfirmationModal';
-import { deleteTopic } from '../../../../../__mocks__';
+import { deleteTopic } from '../../../../../common/API';
 import { ERRORS } from '../../../../../common/errors';
 
 export interface DeleteTopicButtonProps {

@@ -1,11 +1,5 @@
-import ClubCard, {
-  MIN_CARD_WIDTH,
-  WINDOW_SIZE_CUT_OFF,
-  MAX_CARD_WIDTH,
-  getMaxCardWidth,
-  ClubCardProps,
-} from './ClubCard';
-import * as Api from '../../../../__mocks__/mockAPI';
+import ClubCard, { ClubCardProps } from './ClubCard';
+import * as Api from '../../../../common/API/APICalls';
 import { ReactWrapper, mount } from 'enzyme';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';

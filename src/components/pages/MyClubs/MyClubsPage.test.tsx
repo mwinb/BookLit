@@ -3,7 +3,7 @@ import React from 'react';
 import MyClubsPage from './MyClubsPage';
 import { UserInterface } from '../../../common/interfaces';
 import { mockUsers, mockClubs } from '../../../__mocks__';
-import * as Api from '../../../__mocks__/mockAPI';
+import * as Api from '../../../common/API/APICalls';
 import { act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import * as ClubCard from './ClubCard/ClubCard';

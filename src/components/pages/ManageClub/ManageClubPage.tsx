@@ -6,10 +6,8 @@ import { UserInterface, ClubInterface, DEFAULT_CLUB } from '../../../common/inte
 import { useLocation } from 'react-router-dom';
 import RedirectWrapper from '../../RedirectWrapper/RedirectWrapper';
 import { Routes } from '../../../common/Routes';
-
-export const clubSettings = {
-  requests: 'Requests',
-};
+import { clubSettings } from './ClubSettings';
+import MemberManagement from './MemberManagement/MemberManagement';
 
 export interface ManageClubPageProps {
   user: UserInterface;
@@ -46,6 +44,7 @@ const ManageClubPage: FunctionComponent<ManageClubPageProps> = (_props): ReactEl
         <ClubSettingsSwitcher currentSelection={currentSetting} setCurrentSelection={setCurrentSetting} />
       </Navbar>
       {currentSetting === clubSettings.requests && <RequestManagement clubId={club.id} />}
+      {currentSetting === clubSettings.members && <MemberManagement clubId={club.id} clubOwner={club.owner} />}
     </>
   );
 };

@@ -3,7 +3,7 @@ import { mockClubs, mockTopics } from '../../../../../__mocks__';
 import { ClubInterface } from '../../../../../common/interfaces';
 import { ReactWrapper, mount } from 'enzyme';
 import * as ConfirmationModal from '../../../../ConfirmationModal/ConfirmationModal';
-import * as Api from '../../../../../__mocks__/mockAPI';
+import * as Api from '../../../../../common/API/APICalls';
 
 import React from 'react';
 import { act } from 'react-dom/test-utils';

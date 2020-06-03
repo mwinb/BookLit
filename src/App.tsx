@@ -11,7 +11,7 @@ import NewClubPage from './components/pages/NewClub/NewClub';
 import ClubPage from './components/pages/ClubPage/ClubPage';
 import { useUser } from './common/context/UserContext';
 import Header from './components/Header/Header';
-import { getUserById } from './__mocks__';
+import { getUserById } from './common/API';
 import { Routes } from './common/Routes';
 import './App.css';
 

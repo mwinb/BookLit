@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactElement, useState, useCallback, useEffect } from 'react';
 import { RequestInterface } from '../../../../common/interfaces/RequestInterface';
-import { getRequestsByClubId } from '../../../../__mocks__';
+import { getRequestsByClubId } from '../../../../common/API';
 import RequestCard from './RequestCard/RequestCard';
 import { Alert } from 'react-bootstrap';
 

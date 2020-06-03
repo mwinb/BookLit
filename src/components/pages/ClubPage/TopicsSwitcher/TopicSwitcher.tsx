@@ -2,7 +2,7 @@ import { TopicInterface } from '../../../../common/interfaces';
 import React, { FunctionComponent, useEffect, useCallback, useState } from 'react';
 import { Nav, NavDropdown } from 'react-bootstrap';
 import './TopicSwitcher.css';
-import { getTopicsByClub, getTopicById } from '../../../../__mocks__';
+import { getTopicsByClub, getTopicById } from '../../../../common/API';
 
 export interface TopicSwitcherProps {
   currentTopicId: string;

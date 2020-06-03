@@ -1,7 +1,7 @@
 import CommentInputForm, { CommentInputFormProps } from './CommentInput';
 import { mockTopics } from '../../../../../__mocks__/mockTopics';
 import { mockUsers } from '../../../../../__mocks__';
-import * as Api from '../../../../../__mocks__/mockAPI';
+import * as Api from '../../../../../common/API/APICalls';
 import { CommentInterface, ANON_USER } from '../../../../../common/interfaces';
 import { ReactWrapper, mount } from 'enzyme';
 import React from 'react';

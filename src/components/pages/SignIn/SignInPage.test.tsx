@@ -4,7 +4,7 @@ import React from 'react';
 import { UserInterface } from '../../../common/interfaces';
 import { mockUsers } from '../../../__mocks__';
 import { act } from 'react-dom/test-utils';
-import * as Api from '../../../__mocks__/mockAPI';
+import * as Api from '../../../common/API/APICalls';
 
 let testUser: UserInterface;
 

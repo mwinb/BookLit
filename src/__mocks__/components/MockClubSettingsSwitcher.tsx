@@ -1,7 +1,7 @@
 import { ClubSettingsSwitcherProps } from '../../components/pages/ManageClub/ClubSettingsSwitcher/ClubSettingsSwitcher';
 import React from 'react';
-import { clubSettings } from '../../components/pages/ManageClub/ManageClubPage';
 import { Button } from 'react-bootstrap';
+import { clubSettings } from '../../components/pages/ManageClub/ClubSettings';
 
 export function MockClubSettingsSwitcher(props: ClubSettingsSwitcherProps) {
   return (

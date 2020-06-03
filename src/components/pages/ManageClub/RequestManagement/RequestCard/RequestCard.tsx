@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactElement, useState, useCallback } from 'r
 import { RequestInterface } from '../../../../../common/interfaces';
 import { Card, Button } from 'react-bootstrap';
 import { getMaxWidth } from '../../../../../common/utils/utils';
-import { approveRequest, rejectRequest } from '../../../../../__mocks__';
+import { approveRequest, rejectRequest } from '../../../../../common/API';
 import { ERRORS } from '../../../../../common/errors';
 
 export interface RequestCardProps {
@@ -47,7 +47,7 @@ const RequestCard: FunctionComponent<RequestCardProps> = (props): ReactElement =
         textAlign: 'left',
       }}
     >
-      <Card.Header style={{ fontWeight: 'bold' }}>{props.request.userName}</Card.Header>
+      <Card.Header style={{ fontWeight: 'bold' }}>{props.request.username}</Card.Header>
       <Card.Body>
         <p>{props.request.message}</p>
       </Card.Body>

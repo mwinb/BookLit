@@ -7,7 +7,7 @@ import {
   TopicInterface,
   UserInterface,
 } from '../../../../../common/interfaces';
-import { getCommentsByTopic, addComment } from '../../../../../__mocks__';
+import { getCommentsByTopic, addComment } from '../../../../../common/API';
 
 export interface CommentInputFormProps {
   topic: TopicInterface;

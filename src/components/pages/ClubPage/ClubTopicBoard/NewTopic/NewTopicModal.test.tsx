@@ -1,12 +1,13 @@
-import { NewTopicButtonProps, NewTopicModalProps, NewTopicModal } from './NewTopicModal';
+import { NewTopicModalProps, NewTopicModal } from './NewTopicModal';
 import { mockClubs } from '../../../../../__mocks__';
-import * as Api from '../../../../../__mocks__/mockAPI';
+import * as Api from '../../../../../common/API/APICalls';
 import { mockTopics } from '../../../../../__mocks__/mockTopics';
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { act } from '@testing-library/react';
 import { DEFAULT_TOPIC, TopicInterface } from '../../../../../common/interfaces';
 import { ERRORS } from '../../../../../common/errors';
+import { NewTopicButtonProps } from './NewTopicButton';
 
 let renderedComponent: ReactWrapper;
 let topicDescriptionInput: ReactWrapper;
@@ -15,9 +16,7 @@ let topicPublicSwitch: ReactWrapper;
 let submitButton: ReactWrapper;
 
 let addTopicSpy: jest.SpyInstance<any>;
-
 let topicId: string;
-let isShown: boolean;
 let newTopic: TopicInterface;
 
 const testNewTopicButtonProps: NewTopicButtonProps = {
@@ -28,7 +27,7 @@ const testNewTopicButtonProps: NewTopicButtonProps = {
 const testNewTopicModalProps: NewTopicModalProps = {
   ...testNewTopicButtonProps,
   show: true,
-  onHide: () => (isShown = false),
+  onHide: () => {},
 };
 
 describe('<NewTopicModal>', () => {

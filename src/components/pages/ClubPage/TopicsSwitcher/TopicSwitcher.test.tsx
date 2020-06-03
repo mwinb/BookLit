@@ -1,7 +1,7 @@
 import { ReactWrapper, mount } from 'enzyme';
 import TopicSwitcher, { TopicSwitcherProps } from './TopicSwitcher';
 import { mockClubs, mockTopics } from '../../../../__mocks__';
-import * as Api from '../../../../__mocks__/mockAPI';
+import * as Api from '../../../../common/API/APICalls';
 import { TopicInterface } from '../../../../common/interfaces';
 import { act } from '@testing-library/react';
 import React from 'react';

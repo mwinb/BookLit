@@ -1,7 +1,7 @@
 import ClubSettingsSwitcher, { ClubSettingsSwitcherProps } from './ClubSettingsSwitcher';
 import { ReactWrapper, mount } from 'enzyme';
 import React from 'react';
-import { clubSettings } from '../ManageClubPage';
+import { clubSettings } from '../ClubSettings';
 import { act } from 'react-dom/test-utils';
 
 let renderedComponent: ReactWrapper;

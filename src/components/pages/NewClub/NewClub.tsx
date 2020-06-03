@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement, useState, useCallback } from 'react';
 import React from 'react';
 import { DEFAULT_CLUB, ClubInterface, UserInterface } from '../../../common/interfaces';
 import { Alert, Card, Form, Button } from 'react-bootstrap';
-import { createClub, updateUser } from '../../../__mocks__';
+import { createClub, updateUser } from '../../../common/API';
 import { ERRORS } from '../../../common/errors';
 import { Routes } from '../../../common/Routes';
 import RedirectWrapper from '../../RedirectWrapper/RedirectWrapper';
