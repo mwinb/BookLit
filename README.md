@@ -1,4 +1,15 @@
-#Front End for Book Lit
+# Front End for Book Lit
+
+- A fun functional prototype project to work on in my spare time. 
+
+## Installation and Running
+
+```npm install``` to install.  
+```npm run start``` to start in browser.  
+```npm run test:unit``` to run unit test suite.  
+Login with. 
+```"email": "test@test.com"```
+```"password": "test"```
 
 ## Tasks
 
